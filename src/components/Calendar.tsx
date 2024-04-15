@@ -51,13 +51,19 @@ function Calendar() {
 
   return (
     <div className="flex flex-col items-center p-4">
-      <Navigation
-        onNavigate={navigate}
-        currentMonth={currentMonth}
-        resetToToday={() => setCurrentMonth(new Date())}
-        currentView={view} // Pass the current view to Navigation
-      />
-      <ViewButtons onViewChange={setView} />
+      <div
+        className={`flex ${
+          view === 'day' ? 'flex-col' : 'flex-col lg:flex-row'
+        } justify-center items-center`}
+      >
+        <Navigation
+          onNavigate={navigate}
+          currentMonth={currentMonth}
+          resetToToday={() => setCurrentMonth(new Date())}
+          currentView={view} // Pass the current view to Navigation
+        />
+        <ViewButtons onViewChange={setView} />
+      </div>
       <div className="flex flex-wrap justify-center items-stretch gap-4">
         {days.map((day) => (
           <DayCard
