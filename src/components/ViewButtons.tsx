@@ -1,6 +1,3 @@
-// ViewButtons.tsx
-import React from 'react';
-
 interface ViewButtonsProps {
   onViewChange: (view: 'day' | 'week' | 'month') => void;
 }

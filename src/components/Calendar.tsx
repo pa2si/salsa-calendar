@@ -14,6 +14,7 @@ import {
 import Navigation from './Navigation';
 import ViewButtons from './ViewButtons';
 import DayCard from './DayCard';
+import { events } from '@/data/events';
 
 function Calendar() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -64,13 +65,14 @@ function Calendar() {
         />
         <ViewButtons onViewChange={setView} />
       </div>
-      <div className="flex flex-wrap justify-center items-stretch gap-4">
+      <div className="flex flex-wrap justify-center items-start gap-4">
         {days.map((day) => (
           <DayCard
             key={format(day, 'yyyy-MM-dd')}
             day={day}
             today={today}
             view={view}
+            events={events} // Make sure this is the array of events
           />
         ))}
       </div>
