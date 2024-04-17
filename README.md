@@ -1,18 +1,21 @@
-v 0.1.2
+v 0.1.3
 
 that's new:
 
-- refactured the Calendar.tsx into smaller components
-  - better folder structure
-- upload image in DayCard
-- responsive styling for DayCard
+- Clerk auth
+- Sidebar content depending of login status
 
 to dos:
 
-- setup clerk
+- create an event
+- show my events
+- cloudinary?
+- filter buttons
 
 done:
 
-- Sidebar with button implemented without content
--
-- Carousel component now devided in Calendar, Navigation, ViewButtons and DayCard
+- Sidebar with login option
+- Calendar
+  - Navigation
+  - ViewButton
+  - DayCard

@@ -25,19 +25,23 @@ const DayCard: React.FC<DayCardProps> = ({ day, today, view, events }) => {
       radius="lg"
       isPressable
       onPress={() => console.log(`${dayId} item pressed`)}
-      className={`relative w-full ${isToday ? 'bg-blue-200' : 'bg-white'} ${
+      className={`relative w-full hover:scale-105 bg-neutral-50 ${
         view === 'day'
           ? 'max-w-[450px]'
           : view === 'week'
           ? `flex-1 min-w-[140px] max-w-[160px] ${
               eventsForDay.length > 1 ? 'max-h-content' : 'max-h-[240px]'
             } md:min-w-[280px] md:max-h-[500px] md:max-w-[280px]`
-          : `flex-1 min-w-[140px] max-w-[100px] md:min-w-[160px] md:max-w-[160px] ${
+          : `flex-1 min-w-[140px] max-w-[100px] md:min-w-[170px] md:max-w-[160px] ${
               eventsForDay.length > 1 ? 'max-h-[500px]' : 'max-h-[240px]'
             }`
       } `}
     >
-      <CardFooter className="flex flex-col md:flex-row justify-between items-center p-2 bg-neutral-100">
+      <CardFooter
+        className={`flex flex-col md:flex-row justify-between items-center p-2  rounded-0 ${
+          isToday ? 'bg-blue-200' : 'bg-neutral-100'
+        } `}
+      >
         <b>{format(day, 'EEEE')}</b>
         <div>
           <span>{format(day, 'dd')}</span>

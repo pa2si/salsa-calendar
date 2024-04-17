@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   format,
   startOfMonth,
@@ -15,6 +15,8 @@ import Navigation from './Navigation';
 import ViewButtons from './ViewButtons';
 import DayCard from './DayCard';
 import { events } from '@/data/events';
+import { Button } from '@nextui-org/react';
+import Link from 'next/link';
 
 function Calendar() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -76,6 +78,9 @@ function Calendar() {
           />
         ))}
       </div>
+      <Button>
+        <Link href="/test">TEST</Link>
+      </Button>
     </div>
   );
 }
