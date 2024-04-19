@@ -1,12 +1,13 @@
-v 0.1.3
+v 0.1.4
 
 that's new:
 
-- Clerk auth
-- Sidebar content depending of login status
+- drawer closes when click in Navlinks
+- margin left for routes
 
 to dos:
 
+- order of about and Nav Links change when logged in
 - create an event
 - show my events
 - cloudinary?

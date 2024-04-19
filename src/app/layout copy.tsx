@@ -22,9 +22,13 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={inter.className}>
-          <Sidebar />
-          <ToasterProviders>{children}</ToasterProviders>
+        <body>
+          <div className="grid grid-cols-[auto,1fr]">
+            <Sidebar />
+            <div className="col-span-2">
+              <ToasterProviders>{children}</ToasterProviders>
+            </div>
+          </div>
         </body>
       </html>
     </ClerkProvider>

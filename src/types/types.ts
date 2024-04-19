@@ -11,3 +11,7 @@ export interface Event {
   country: string;
   genre: string;
 }
+
+export interface User {
+  emailAddresses: { emailAddress: string }[];
+}

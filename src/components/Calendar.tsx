@@ -78,9 +78,6 @@ function Calendar() {
           />
         ))}
       </div>
-      <Button>
-        <Link href="/test">TEST</Link>
-      </Button>
     </div>
   );
 }

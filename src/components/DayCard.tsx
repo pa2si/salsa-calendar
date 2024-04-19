@@ -1,6 +1,6 @@
 import { Card, CardBody, CardFooter, Image } from '@nextui-org/react';
 import { format, isSameDay } from 'date-fns';
-import { Event } from '@/types/eventTypes';
+import { Event } from '@/types/types';
 import { BsCloudUpload } from 'react-icons/bs';
 
 interface DayCardProps {

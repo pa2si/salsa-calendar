@@ -9,7 +9,7 @@ import NavLinks from './NavLinks';
 import SidebarHeader from './SidebarHeader';
 import { SlLogin } from 'react-icons/sl';
 import { GrClose } from 'react-icons/gr';
-import { ImSpinner8 } from 'react-icons/im';
+import { FaSpinner } from 'react-icons/fa6';
 import { useEffect, useRef, useState } from 'react';
 
 const Sidebar = () => {
@@ -91,7 +91,7 @@ const Sidebar = () => {
                   className="drawer-overlay"
                 ></label>
                 <div className="flex justify-center items-center">
-                  <ImSpinner8 size={25} className="animate-spin" />
+                  <FaSpinner size={25} className="animate-spin" />
                 </div>
               </div>
             ) : (
