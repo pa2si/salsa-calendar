@@ -12,6 +12,7 @@ to dos:
 - show my events
 - cloudinary?
 - filter buttons
+- toast for login
 
 done:
 
