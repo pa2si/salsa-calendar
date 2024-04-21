@@ -1,4 +1,4 @@
-import { createAndEditEventSchema } from '@/app/Schemas/Schemas';
+import { createAndEditEventSchema } from '@/app/schemas/schemas';
 import * as z from 'zod';
 
 export interface Event {
@@ -24,8 +24,8 @@ export type EventType = {
   createdAt: Date;
   updatedAt: Date;
   clerkId: string;
-  date: string;
   eventName: string;
+  date: string; // ISO 8601 date in string format 'YYYY-MM-DD'
   locationName: string;
   street: string;
   city: string;

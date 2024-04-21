@@ -1,10 +1,8 @@
-v 0.1.5
+v 0.1.6
 
 that's new:
 
-- navlink stays bg-blue-700 when selected
-- Schema file for form and correspondig types.
-- Form Component and FormSelect Component
+- Schemas, types and custom forms for add event submit
 
 to dos:
 
@@ -18,6 +16,7 @@ to dos:
 done:
 
 - Sidebar with login option
+- create Event route with submit form
 - Calendar
   - Navigation
   - ViewButton
