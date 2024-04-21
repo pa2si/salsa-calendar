@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const links = [
   { href: '/create-event', label: 'create event' },
@@ -15,14 +16,27 @@ const NavLinks = ({ drawerRef }: { drawerRef: DrawerRefType }) => {
     }
   };
 
+  const pathname = usePathname();
+
   return (
     <ul className="menu border-l-3 border-double border-gray-500 ">
       {links.map((link) => {
+        // Determine the background class based on the pathname and specific link
+        const bgClass =
+          pathname === link.href
+            ? link.href === '/create-event'
+              ? 'bg-blue-700'
+              : link.href === '/my-events'
+              ? 'bg-blue-700'
+              : link.href === '/'
+              ? 'bg-blue-700'
+              : 'bg-blue-500'
+            : 'bg-blue-500';
         return (
           <li key={link.href}>
             <Link
               href={link.href}
-              className="btn capitalize text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg px-4 py-2 mx-1 transition duration-150 ease-in-out"
+              className={`btn capitalize text-white ${bgClass} hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg px-4 py-2 mx-1 transition duration-150 ease-in-out`}
               onClick={handleMenuClick}
             >
               {link.label}

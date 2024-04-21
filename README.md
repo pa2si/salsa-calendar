@@ -1,9 +1,10 @@
-v 0.1.4
+v 0.1.5
 
 that's new:
 
-- drawer closes when click in Navlinks
-- margin left for routes
+- navlink stays bg-blue-700 when selected
+- Schema file for form and correspondig types.
+- Form Component and FormSelect Component
 
 to dos:
 

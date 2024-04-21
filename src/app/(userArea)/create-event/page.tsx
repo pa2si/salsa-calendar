@@ -1,3 +1,5 @@
+import CreateEventForm from '@/components/CreateEventForm';
+
 export async function generateMetadata() {
   return {
     title: '',
@@ -6,6 +8,10 @@ export async function generateMetadata() {
 }
 
 const CreateEvent = () => {
-  return <div className="">create Event</div>;
+  return (
+    <>
+      <CreateEventForm />
+    </>
+  );
 };
 export default CreateEvent;
