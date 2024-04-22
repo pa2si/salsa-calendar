@@ -16,7 +16,13 @@ const SidebarHeader = ({ drawerRef }: { drawerRef: DrawerRefType }) => {
       className="flex items-center hover:scale-105 transition-all duration-200 ease-in-out origin-bottom -rotate-12 mb-8 "
       onClick={handleMenuClick}
     >
-      <Image src="/calendar.png" alt="calendar" width={90} height={90} />
+      <Image
+        src="/calendar.png"
+        alt="calendar"
+        width={90}
+        height={90}
+        priority
+      />
 
       <p className="text-xl font-bold">
         Salsa <span className="text-red-600">Calendar</span>

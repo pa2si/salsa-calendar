@@ -1,4 +1,5 @@
 import * as z from 'zod';
+import { isToday, isFuture } from 'date-fns';
 
 export const createAndEditEventSchema = z.object({
   eventName: z
@@ -7,9 +8,13 @@ export const createAndEditEventSchema = z.object({
       message: 'Event name must be at least 2 characters',
     })
     .max(200, { message: 'Event name must not exceed 200 characters' }),
-  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, {
-    message: 'Date must be in format YYYY-MM-DD',
-  }),
+  date: z.date().refine(
+    (date) => {
+      const today = new Date();
+      return isToday(date) || isFuture(date);
+    },
+    { message: 'Date must not be in the past' }
+  ),
   locationName: z
     .string()
     .min(2, {

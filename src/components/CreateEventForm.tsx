@@ -9,6 +9,8 @@ import { createAndEditEventSchema } from '@/schemas/schemas';
 import { EventGenre, CreateAndEditEventType } from '@/types/types';
 import { CustomFormField } from './FormComponents';
 import DropdownMenuCheckboxes from './DropdownMenuCheckboxes';
+import { DatePicker } from './Datepicker';
+import { format } from 'date-fns';
 
 const CreateEventForm = () => {
   // 1. Define your form.
@@ -16,7 +18,7 @@ const CreateEventForm = () => {
     resolver: zodResolver(createAndEditEventSchema),
     defaultValues: {
       eventName: '',
-      date: '',
+      date: undefined,
       locationName: '',
       street: '',
       city: '',
@@ -27,7 +29,11 @@ const CreateEventForm = () => {
   });
   // 2. Define a submit handler.
   function onSubmit(values: CreateAndEditEventType) {
-    console.log(values);
+    const formattedValues = {
+      ...values,
+      date: values.date ? format(values.date, 'yyyy-MM-dd') : null, // Format the date as a string if necessary
+    };
+    console.log(formattedValues);
   }
 
   const genreOptions = Object.keys(EventGenre) as (keyof typeof EventGenre)[];
@@ -46,8 +52,8 @@ const CreateEventForm = () => {
             control={form.control}
             labelText="Event Name"
           />
-          {/*  Date*/}
-          <CustomFormField name="date" control={form.control} />
+          {/* Date */}
+          <DatePicker name="date" />
           {/*  Location Name*/}
           <CustomFormField
             name="locationName"

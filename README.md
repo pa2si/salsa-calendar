@@ -1,8 +1,8 @@
-v 0.1.8
+v 0.1.9
 
 that's new:
 
-- now all validation messages are displayed!
+- Date is now a shadcn datepicker
 
 to dos:
 

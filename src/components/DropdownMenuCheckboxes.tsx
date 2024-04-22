@@ -59,9 +59,12 @@ const DropdownMenuCheckboxes: React.FC<DropdownMenuCheckboxesProps> = ({
         name="checkedGenres"
         as="p"
         render={({ message }: { message: string }) => (
-          <p className="text-red-500 mt-2">{message}</p>
+          <p className="text-red-500 mt-3">{message}</p>
         )}
       />
+      {checkedGenres.length > 0 && (
+        <p className="mt-3">Selected Genres: {checkedGenres.join(', ')}</p>
+      )}
     </div>
   );
 };

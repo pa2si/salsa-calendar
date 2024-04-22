@@ -25,7 +25,7 @@ export type EventType = {
   updatedAt: Date;
   clerkId: string;
   eventName: string;
-  date: string; // ISO 8601 date in string format 'YYYY-MM-DD'
+  date: Date; // ISO 8601 date in string format 'YYYY-MM-DD'
   locationName: string;
   street: string;
   city: string;
