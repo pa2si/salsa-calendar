@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
 import { Button } from './ui/button';
-
+import { FormMessage } from '@/components/ui/form';
 import { createAndEditEventSchema } from '@/schemas/schemas';
 import { EventGenre, CreateAndEditEventType } from '@/types/types';
 import { CustomFormField } from './FormComponents';
@@ -59,13 +59,18 @@ const CreateEventForm = () => {
           {/*  City*/}
           <CustomFormField name="city" control={form.control} />
           {/*  Postal*/}
-          <CustomFormField name="postal" control={form.control} />
+          <CustomFormField
+            name="postal"
+            control={form.control}
+            labelText="postal code"
+          />
           {/*  Country*/}
           <CustomFormField name="country" control={form.control} />
         </div>
 
         {/* Genres */}
         <DropdownMenuCheckboxes genres={genreOptions} />
+        <FormMessage />
         <Button
           type="submit"
           className="capitalize bg-blue-500 hover:bg-blue-700 w-full"

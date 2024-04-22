@@ -1,13 +1,12 @@
-v 0.1.7
+v 0.1.8
 
 that's new:
 
-- now multiple options for genres thanks to dropdown menu from shadcn
+- now all validation messages are displayed!
 
 to dos:
 
-- show error for schema genre!!
-- postal code into numbers not string type
+- datepicker
 
 - order of about and Nav Links change when logged in
 - create an event
