@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { UserButton } from '@clerk/nextjs';
-import { fetchCurrentUser } from '@/actions/fetchUser';
+import { fetchCurrentUser } from '@/actions/fetchClerkUser';
 import { User } from '@/types/types';
 import { FaSpinner } from 'react-icons/fa';
 

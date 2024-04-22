@@ -8,13 +8,13 @@ export const createAndEditEventSchema = z.object({
       message: 'Event name must be at least 2 characters',
     })
     .max(200, { message: 'Event name must not exceed 200 characters' }),
-  date: z.date().refine(
-    (date) => {
-      const today = new Date();
-      return isToday(date) || isFuture(date);
-    },
-    { message: 'Date must not be in the past' }
-  ),
+  // date: z.date().refine(
+  //   (date) => {
+  //     const today = new Date();
+  //     return isToday(date) || isFuture(date);
+  //   },
+  //   { message: 'Date must not be in the past' }
+  // ),
   locationName: z
     .string()
     .min(2, {

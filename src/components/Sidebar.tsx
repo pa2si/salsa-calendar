@@ -32,18 +32,16 @@ const Sidebar = () => {
   };
 
   // Check if the current pathname matches '/create-event' or '/all-events'
-  const isCreateOrAllEventsPage =
-    pathname === '/create-event' || pathname === '/my-events';
+  const isAddOrMyEventsPage =
+    pathname === '/add-event' || pathname === '/my-events';
 
   return (
     <div
       className={`z-50 absolute ${
-        isCreateOrAllEventsPage ? 'lg:top-0 lg:left-0' : 'top-5 left-5'
+        isAddOrMyEventsPage ? 'lg:top-0 lg:left-0' : 'top-5 left-5'
       }`}
     >
-      <div
-        className={`drawer ${isCreateOrAllEventsPage ? 'lg:drawer-open' : ''}`}
-      >
+      <div className={`drawer ${isAddOrMyEventsPage ? 'lg:drawer-open' : ''}`}>
         <input
           id="my-drawer"
           type="checkbox"
@@ -52,7 +50,7 @@ const Sidebar = () => {
         />
         <div
           className={`drawer-content ${
-            isCreateOrAllEventsPage ? 'block lg:hidden' : ''
+            isAddOrMyEventsPage ? 'block lg:hidden' : ''
           }`}
         >
           <label

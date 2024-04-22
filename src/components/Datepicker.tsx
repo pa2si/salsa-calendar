@@ -52,7 +52,7 @@ export function DatePicker({ name }: { name: string }) {
       />
       <ErrorMessage
         errors={errors}
-        name={name} // Correct the name to match the date field
+        name={name}
         as="p"
         render={({ message }: { message: string }) => (
           <p className="text-red-500 mt-2">{message}</p>

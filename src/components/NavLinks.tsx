@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const links = [
-  { href: '/create-event', label: 'create event' },
+  { href: '/add-event', label: 'add event' },
   { href: '/my-events', label: 'my events' },
   { href: '/', label: 'calendar' },
 ];
@@ -24,7 +24,7 @@ const NavLinks = ({ drawerRef }: { drawerRef: DrawerRefType }) => {
         // Determine the background class based on the pathname and specific link
         const bgClass =
           pathname === link.href
-            ? link.href === '/create-event'
+            ? link.href === '/add-event'
               ? 'bg-blue-700'
               : link.href === '/my-events'
               ? 'bg-blue-700'

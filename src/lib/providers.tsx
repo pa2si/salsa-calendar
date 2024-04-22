@@ -1,18 +1,28 @@
 'use client';
 
-import { NextUIProvider } from '@nextui-org/react';
-import { ReactNode } from 'react';
+import { useState } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Toaster } from 'react-hot-toast';
 
-export function NextUIProviders({ children }: { children: React.ReactNode }) {
-  return <NextUIProvider>{children}</NextUIProvider>;
-}
+export function Providers({ children }: { children: React.ReactNode }) {
+  const [queryClient] = useState(() => {
+    return new QueryClient({
+      defaultOptions: {
+        queries: {
+          staleTime: 60 * 1000 * 5,
+        },
+      },
+    });
+  });
 
-export function ToasterProviders({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Toaster position="top-center" />
-      {children}
+      <QueryClientProvider client={queryClient}>
+        {children}
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </>
   );
 }

@@ -12,13 +12,18 @@ import DropdownMenuCheckboxes from './DropdownMenuCheckboxes';
 import { DatePicker } from './Datepicker';
 import { format } from 'date-fns';
 
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { createEventAction } from '@/actions/dbActions';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+
 const CreateEventForm = () => {
   // 1. Define your form.
   const form = useForm<CreateAndEditEventType>({
     resolver: zodResolver(createAndEditEventSchema),
     defaultValues: {
       eventName: '',
-      date: undefined,
+      // date: undefined,
       locationName: '',
       street: '',
       city: '',
@@ -27,13 +32,37 @@ const CreateEventForm = () => {
       checkedGenres: [],
     },
   });
+
+  const queryClient = useQueryClient();
+  const router = useRouter();
+  const { mutate, isPending } = useMutation({
+    mutationFn: (values: CreateAndEditEventType) => createEventAction(values),
+    onSuccess: (data) => {
+      if (!data) {
+        toast.error('There was an error processing your request.');
+        return;
+      }
+      toast.success('Event added successfully');
+      queryClient.invalidateQueries({ queryKey: ['events'] });
+
+      // form.reset()
+      router.push('/');
+    },
+    onError: (error) => {
+      // Handle errors more specifically if you can
+      toast.error(`Error: ${error.message}`);
+    },
+  });
+
   // 2. Define a submit handler.
   function onSubmit(values: CreateAndEditEventType) {
-    const formattedValues = {
-      ...values,
-      date: values.date ? format(values.date, 'yyyy-MM-dd') : null, // Format the date as a string if necessary
-    };
-    console.log(formattedValues);
+    // console.log('Type of checkedGenres:', typeof values.checkedGenres);
+    // console.log(
+    //   'Is checkedGenres an array?',
+    //   Array.isArray(values.checkedGenres)
+    // );
+    // console.log('Contents of checkedGenres:', values.checkedGenres);
+    mutate(values);
   }
 
   const genreOptions = Object.keys(EventGenre) as (keyof typeof EventGenre)[];
@@ -53,7 +82,7 @@ const CreateEventForm = () => {
             labelText="Event Name"
           />
           {/* Date */}
-          <DatePicker name="date" />
+          {/* <DatePicker name="date" /> */}
           {/*  Location Name*/}
           <CustomFormField
             name="locationName"
@@ -80,8 +109,9 @@ const CreateEventForm = () => {
         <Button
           type="submit"
           className="capitalize bg-blue-500 hover:bg-blue-700 w-full"
+          disabled={isPending}
         >
-          create Event
+          {isPending ? 'loading' : 'add Event'}
         </Button>
       </form>
     </Form>

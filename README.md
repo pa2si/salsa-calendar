@@ -1,12 +1,12 @@
-v 0.1.9
+v 0.1.10
 
 that's new:
 
-- Date is now a shadcn datepicker
+- successfully submit form fields to prisma database. (date is still missing)
 
 to dos:
 
-- datepicker
+- replace datepicker with date and time picker
 
 - order of about and Nav Links change when logged in
 - create an event

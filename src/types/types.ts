@@ -20,18 +20,18 @@ export interface User {
 }
 
 export type EventType = {
-  id: number;
+  id: string;
   createdAt: Date;
-  updatedAt: Date;
+  updatedAt?: Date;
   clerkId: string;
   eventName: string;
-  date: Date; // ISO 8601 date in string format 'YYYY-MM-DD'
+  // date: Date;
   locationName: string;
   street: string;
   city: string;
   postal: string;
   country: string;
-  genre: string;
+  genre: string[];
 };
 
 export enum EventGenre {
