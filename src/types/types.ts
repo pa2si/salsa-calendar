@@ -1,4 +1,4 @@
-import { createAndEditEventSchema } from '@/app/schemas/schemas';
+import { createAndEditEventSchema } from '@/schemas/schemas';
 import * as z from 'zod';
 
 export interface Event {
@@ -47,7 +47,7 @@ export enum EventGenre {
   Boogaloo = 'Boogaloo',
   Bolero = 'Bolero',
   ChaChaCha = 'Cha Cha Cha',
-  Bachata = 'Bacahta',
+  Bachata = 'Bachata',
   Merengue = 'Merengue',
   Plena = 'Plena',
   Bomba = 'Bomba',

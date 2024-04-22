@@ -6,9 +6,8 @@ import { useForm } from 'react-hook-form';
 import { Button } from './ui/button';
 
 import { createAndEditEventSchema } from '@/schemas/schemas';
-import { EventGenre, CreateAndEditEventType } from '@/types/types';
-import { CustomFormField } from './FormComponents';
-import DropdownMenuCheckboxes from './DropdownMenuCheckboxes';
+import { CreateAndEditEventType, EventGenre } from '@/types/types';
+import { CustomFormField, CustomDropdownMenuCheckbox } from './FormComponents';
 
 const CreateEventForm = () => {
   // 1. Define your form.
@@ -22,16 +21,13 @@ const CreateEventForm = () => {
       city: '',
       postal: '',
       country: '',
-      checkedGenres: [],
+      genre: EventGenre.Salsa,
     },
   });
   // 2. Define a submit handler.
   function onSubmit(values: CreateAndEditEventType) {
     console.log(values);
   }
-
-  const genreOptions = Object.keys(EventGenre) as (keyof typeof EventGenre)[];
-
   return (
     <Form {...form}>
       <form
@@ -65,7 +61,13 @@ const CreateEventForm = () => {
         </div>
 
         {/* Genres */}
-        <DropdownMenuCheckboxes genres={genreOptions} />
+        <CustomDropdownMenuCheckbox
+          name="genres"
+          control={form.control}
+          labelText="genres"
+          items={Object.values(EventGenre)}
+        />
+
         <Button
           type="submit"
           className="capitalize bg-blue-500 hover:bg-blue-700 w-full"

@@ -1,10 +1,13 @@
-v 0.1.6
+v 0.1.7
 
 that's new:
 
-- Schemas, types and custom forms for add event submit
+- now multiple options for genres thanks to dropdown menu from shadcn
 
 to dos:
+
+- show error for schema genre!!
+- postal code into numbers not string type
 
 - order of about and Nav Links change when logged in
 - create an event

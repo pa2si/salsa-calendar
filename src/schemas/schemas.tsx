@@ -1,4 +1,3 @@
-import { EventGenre } from '@/types/types';
 import * as z from 'zod';
 
 export const createAndEditEventSchema = z.object({
@@ -23,5 +22,7 @@ export const createAndEditEventSchema = z.object({
   country: z.string().min(2, {
     message: 'Country must be at least 2 characters',
   }),
-  genre: z.nativeEnum(EventGenre),
+  checkedGenres: z.array(z.string()).min(1, {
+    message: 'At least one genre must be selected',
+  }),
 });
