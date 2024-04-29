@@ -6,6 +6,7 @@ export interface Event {
   imageUrl: string;
   title: string;
   date: Date;
+  combinedTime: string;
   city: string;
   location: string;
   street: string;
@@ -25,7 +26,8 @@ export type EventType = {
   updatedAt?: Date;
   clerkId: string;
   eventName: string;
-  // date: Date;
+  date: Date;
+  time: string;
   locationName: string;
   street: string;
   city: string;

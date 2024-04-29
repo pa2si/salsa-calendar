@@ -8,14 +8,15 @@ import { FormMessage } from '@/components/ui/form';
 import { createAndEditEventSchema } from '@/schemas/schemas';
 import { EventGenre, CreateAndEditEventType } from '@/types/types';
 import { CustomFormField } from './FormComponents';
-import DropdownMenuCheckboxes from './DropdownMenuCheckboxes';
+import Genrepicker from './Genrepicker';
 import { DatePicker } from './Datepicker';
-import { format } from 'date-fns';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createEventAction } from '@/actions/dbActions';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import { TimePicker } from './Timepicker';
+import { FormLabel } from '@/components/ui/form';
 
 const CreateEventForm = () => {
   // 1. Define your form.
@@ -23,7 +24,8 @@ const CreateEventForm = () => {
     resolver: zodResolver(createAndEditEventSchema),
     defaultValues: {
       eventName: '',
-      // date: undefined,
+      date: new Date(),
+      time: '',
       locationName: '',
       street: '',
       city: '',
@@ -56,12 +58,7 @@ const CreateEventForm = () => {
 
   // 2. Define a submit handler.
   function onSubmit(values: CreateAndEditEventType) {
-    // console.log('Type of checkedGenres:', typeof values.checkedGenres);
-    // console.log(
-    //   'Is checkedGenres an array?',
-    //   Array.isArray(values.checkedGenres)
-    // );
-    // console.log('Contents of checkedGenres:', values.checkedGenres);
+    // console.log(values);
     mutate(values);
   }
 
@@ -81,8 +78,17 @@ const CreateEventForm = () => {
             control={form.control}
             labelText="Event Name"
           />
-          {/* Date */}
-          {/* <DatePicker name="date" /> */}
+          <div className="flex flex-row w-full sm:w-64 md:w-80 lg:w-72 xl:w-80">
+            {/* Date */}
+            <div className="grow">
+              <DatePicker name="date" />
+            </div>
+            <div>
+              <TimePicker name="time" />
+            </div>
+            {/* Time */}
+          </div>
+
           {/*  Location Name*/}
           <CustomFormField
             name="locationName"
@@ -101,10 +107,19 @@ const CreateEventForm = () => {
           />
           {/*  Country*/}
           <CustomFormField name="country" control={form.control} />
+
+          {/* Upload */}
+          <div className="flex flex-col mt-2 gap-2">
+            <FormLabel>Upload Flyer</FormLabel>
+            <input
+              type="file"
+              className="file-input file-input-bordered h-10 w-full sm:w-64 md:w-80 lg:w-72 xl:w-80 max-w-xs"
+            />
+          </div>
         </div>
 
         {/* Genres */}
-        <DropdownMenuCheckboxes genres={genreOptions} />
+        <Genrepicker genres={genreOptions} />
         <FormMessage />
         <Button
           type="submit"

@@ -1,8 +1,8 @@
-v 0.1.10
+v 0.1.11
 
 that's new:
 
-- successfully submit form fields to prisma database. (date is still missing)
+- successfully submit form fields to prisma database. (image is still missing)
 
 to dos:
 
@@ -23,3 +23,5 @@ done:
   - Navigation
   - ViewButton
   - DayCard
+- /add Event Url
+- Prisma db integration with form submit

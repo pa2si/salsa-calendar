@@ -6,8 +6,6 @@ import { EventType, CreateAndEditEventType } from '@/types/types';
 import { createAndEditEventSchema } from '@/schemas/schemas';
 import { redirect } from 'next/navigation';
 
-// import dayjs from 'dayjs';
-
 function authenticateAndRedirect(): string {
   const { userId } = auth();
   if (!userId) {
@@ -19,14 +17,14 @@ function authenticateAndRedirect(): string {
 export async function createEventAction(
   values: CreateAndEditEventType
 ): Promise<EventType | null> {
-  // await new Promise((resolve) => setTimeout(resolve, 3000)); // COMMENT ME OUT LATER
-
   const userId = authenticateAndRedirect();
   try {
     createAndEditEventSchema.parse(values); // Validate using Zod; 'date' is a Date object
     const event: EventType = await prisma.event.create({
       data: {
         eventName: values.eventName,
+        date: values.date,
+        time: values.time,
         locationName: values.locationName,
         street: values.street,
         city: values.city,

@@ -12,15 +12,12 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { EventGenre } from '@/types/types';
 
-type DropdownMenuCheckboxesProps = {
+type GenrepickerProps = {
   genres: (keyof typeof EventGenre)[];
 };
 
-const DropdownMenuCheckboxes: React.FC<DropdownMenuCheckboxesProps> = ({
-  genres,
-}) => {
+const Genrepicker: React.FC<GenrepickerProps> = ({ genres }) => {
   const {
-    register,
     setValue,
     watch,
     formState: { errors },
@@ -38,7 +35,7 @@ const DropdownMenuCheckboxes: React.FC<DropdownMenuCheckboxesProps> = ({
     <div>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button>Genre</Button>
+          <Button className="bg-gray-700">CHOOSE THE GENRE</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56 max-h-[20rem] overflow-scroll">
           <DropdownMenuLabel>You can select multiple genres</DropdownMenuLabel>
@@ -69,4 +66,4 @@ const DropdownMenuCheckboxes: React.FC<DropdownMenuCheckboxesProps> = ({
   );
 };
 
-export default DropdownMenuCheckboxes;
+export default Genrepicker;
