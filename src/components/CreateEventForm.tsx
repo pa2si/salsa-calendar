@@ -92,7 +92,7 @@ const CreateEventForm = () => {
       >
         <h2 className="capitalize font-semibold text-4xl mb-6">add Event</h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols3 items-start">
-          {/*  Event Name*/}
+          {/*  Event Name */}
           <CustomFormField
             name="eventName"
             control={form.control}
@@ -109,15 +109,15 @@ const CreateEventForm = () => {
             {/* Time */}
           </div>
 
-          {/*  Location Name*/}
+          {/*  Location Name */}
           <CustomFormField
             name="locationName"
             control={form.control}
             labelText="Location Name"
           />
-          {/*  Street*/}
+          {/*  Street */}
           <CustomFormField name="street" control={form.control} />
-          {/*  City*/}
+          {/* City */}
           <CustomFormField name="city" control={form.control} />
           {/*  Postal*/}
           <CustomFormField
@@ -125,21 +125,16 @@ const CreateEventForm = () => {
             control={form.control}
             labelText="postal code"
           />
-          {/*  Country*/}
+          {/* Country */}
           <CustomFormField name="country" control={form.control} />
           <div className="flex flex-col mt-2 gap-2">
             {/* Genres */}
             <FormLabel className="mb-2">Genre</FormLabel>
             <Genrepicker genres={genreOptions} />
           </div>
-          {/* Upload */}
+          {/* Image Upload */}
           <div className="flex flex-col mt-2 gap-2">
             <FormLabel className="mb-2">Upload Flyer</FormLabel>
-            {/* <input
-              type="file"
-              className="file-input file-input-bordered h-10 w-full sm:w-64 md:w-80 lg:w-72 xl:w-80 max-w-xs"
-            /> */}
-            {/* Image Upload */}
             <div className="w-full sm:w-64 md:w-80 lg:w-72 xl:w-80 max-w-xs flex justify-center">
               <UploadFile
                 onUrlChange={(url) => form.setValue('imageUrl', url)} // Store the URL in the form state

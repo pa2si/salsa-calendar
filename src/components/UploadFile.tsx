@@ -30,7 +30,7 @@ function UploadFile({ onUrlChange }: { onUrlChange: (url: string) => void }) {
                 });
 
                 const imageUrl = res.url;
-                console.log(`Uploaded image URL: ${imageUrl}`);
+                // console.log(`Uploaded image URL: ${imageUrl}`);
 
                 onUrlChange(imageUrl); // Pass the URL to the parent component
               } catch (error) {

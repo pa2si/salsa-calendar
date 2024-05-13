@@ -10,7 +10,7 @@ export const createAndEditEventSchema = z.object({
   date: z.coerce.date().refine((date) => date >= new Date(), {
     message: 'The date cannot be in the past.',
   }),
-  time: z.string().nonempty({ message: 'A time must be chosen.' }),
+  time: z.string().min(4, { message: 'A time must be chosen.' }),
   locationName: z
     .string()
     .min(2, {

@@ -1,23 +1,19 @@
-v 0.1.12
+v 0.1.13
 
 that's new:
 
-- implementation of edgestore image host
-- successfully submit form fields to prisma database inlcuding imageUrl
+- search option in all events page implemented.
 
 to dos:
 
-- replace datepicker with date and time picker
-
 - order of about and Nav Links change when logged in
-- create an event
 - show my events
-- cloudinary?
 - filter buttons
 - toast for login
 
 done:
 
+- edgestore image hoster integrated for image uploading
 - Sidebar with login option
 - create Event route with submit form
 - Calendar

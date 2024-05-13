@@ -55,3 +55,10 @@ export enum EventGenre {
 }
 
 export type CreateAndEditEventType = z.infer<typeof createAndEditEventSchema>;
+
+export type GetAllEventsActionTypes = {
+  search?: string;
+  genre?: string;
+  page?: number;
+  limit?: number;
+};

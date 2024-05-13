@@ -1,8 +1,13 @@
 'use server';
 
 import prisma from '@/db/prismaDb';
+import { Prisma } from '@prisma/client';
 import { auth } from '@clerk/nextjs';
-import { EventType, CreateAndEditEventType } from '@/types/types';
+import {
+  EventType,
+  CreateAndEditEventType,
+  GetAllEventsActionTypes,
+} from '@/types/types';
 import { createAndEditEventSchema } from '@/schemas/schemas';
 import { redirect } from 'next/navigation';
 
@@ -38,5 +43,54 @@ export async function createEventAction(
   } catch (error) {
     console.log(error);
     return null;
+  }
+}
+
+export async function getAllEventsAction({
+  search,
+  genre,
+  page = 1,
+  limit = 10,
+}: GetAllEventsActionTypes): Promise<{
+  events: EventType[];
+  count: number;
+  page: number;
+  totalPages: number;
+}> {
+  const userId = authenticateAndRedirect();
+  try {
+    let whereClause: Prisma.EventWhereInput = {
+      clerkId: userId,
+    };
+    if (search) {
+      whereClause = {
+        ...whereClause,
+        OR: [
+          {
+            locationName: {
+              contains: search,
+              mode: 'insensitive',
+            },
+          },
+          { eventName: { contains: search, mode: 'insensitive' } }, // Assuming eventName should be searched as well
+        ],
+      };
+    }
+    if (genre && genre !== 'all') {
+      whereClause = {
+        ...whereClause,
+        genre: { has: genre },
+      };
+    }
+
+    const events: EventType[] = await prisma.event.findMany({
+      where: whereClause,
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+    return { events, count: 0, page: 1, totalPages: 0 };
+  } catch (error) {
+    return { events: [], count: 0, page: 1, totalPages: 0 };
   }
 }
