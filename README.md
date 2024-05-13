@@ -1,8 +1,9 @@
-v 0.1.11
+v 0.1.12
 
 that's new:
 
-- successfully submit form fields to prisma database. (image is still missing)
+- implementation of edgestore image host
+- successfully submit form fields to prisma database inlcuding imageUrl
 
 to dos:
 

@@ -6,7 +6,6 @@ export interface Event {
   imageUrl: string;
   title: string;
   date: Date;
-  combinedTime: string;
   city: string;
   location: string;
   street: string;
@@ -27,13 +26,13 @@ export type EventType = {
   clerkId: string;
   eventName: string;
   date: Date;
-  time: string;
   locationName: string;
   street: string;
   city: string;
   postal: string;
   country: string;
   genre: string[];
+  imageUrl?: string | null;
 };
 
 export enum EventGenre {

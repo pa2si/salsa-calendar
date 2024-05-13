@@ -17,8 +17,12 @@ import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { TimePicker } from './Timepicker';
 import { FormLabel } from '@/components/ui/form';
+import UploadFile from './UploadFile';
+import { useEdgeStore } from '@/lib/providers';
 
 const CreateEventForm = () => {
+  const { edgestore } = useEdgeStore();
+
   // 1. Define your form.
   const form = useForm<CreateAndEditEventType>({
     resolver: zodResolver(createAndEditEventSchema),
@@ -32,13 +36,29 @@ const CreateEventForm = () => {
       postal: '',
       country: '',
       checkedGenres: [],
+      imageUrl: '',
     },
   });
 
   const queryClient = useQueryClient();
   const router = useRouter();
   const { mutate, isPending } = useMutation({
-    mutationFn: (values: CreateAndEditEventType) => createEventAction(values),
+    mutationFn: async (values: CreateAndEditEventType) => {
+      // Try to confirm the image upload if imageUrl is present
+      if (values.imageUrl) {
+        try {
+          await edgestore.publicImages.confirmUpload({
+            url: values.imageUrl,
+          });
+        } catch (error) {
+          console.error('Failed to confirm image upload:', error);
+          throw new Error('Failed to confirm image upload. Please try again.');
+        }
+      }
+
+      // Proceed to create the event with all collected values
+      return createEventAction(values);
+    },
     onSuccess: (data) => {
       if (!data) {
         toast.error('There was an error processing your request.');
@@ -107,19 +127,27 @@ const CreateEventForm = () => {
           />
           {/*  Country*/}
           <CustomFormField name="country" control={form.control} />
-
+          <div className="flex flex-col mt-2 gap-2">
+            {/* Genres */}
+            <FormLabel className="mb-2">Genre</FormLabel>
+            <Genrepicker genres={genreOptions} />
+          </div>
           {/* Upload */}
           <div className="flex flex-col mt-2 gap-2">
-            <FormLabel>Upload Flyer</FormLabel>
-            <input
+            <FormLabel className="mb-2">Upload Flyer</FormLabel>
+            {/* <input
               type="file"
               className="file-input file-input-bordered h-10 w-full sm:w-64 md:w-80 lg:w-72 xl:w-80 max-w-xs"
-            />
+            /> */}
+            {/* Image Upload */}
+            <div className="w-full sm:w-64 md:w-80 lg:w-72 xl:w-80 max-w-xs flex justify-center">
+              <UploadFile
+                onUrlChange={(url) => form.setValue('imageUrl', url)} // Store the URL in the form state
+              />
+            </div>
           </div>
         </div>
 
-        {/* Genres */}
-        <Genrepicker genres={genreOptions} />
         <FormMessage />
         <Button
           type="submit"
