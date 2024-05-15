@@ -1,15 +1,23 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-const links = [
+const signedInLinks = [
   { href: '/add-event', label: 'add event' },
   { href: '/my-events', label: 'my events' },
   { href: '/', label: 'calendar' },
 ];
 
+const signedOutLinks = [{ href: '/', label: 'calendar' }];
+
 type DrawerRefType = React.RefObject<HTMLInputElement>;
 
-const NavLinks = ({ drawerRef }: { drawerRef: DrawerRefType }) => {
+const NavLinks = ({
+  drawerRef,
+  isSignedIn,
+}: {
+  drawerRef: DrawerRefType;
+  isSignedIn: boolean;
+}) => {
   const handleMenuClick = () => {
     if (drawerRef.current) {
       drawerRef.current.click(); // Trigger the click event on drawerRef if it's not null
@@ -18,20 +26,13 @@ const NavLinks = ({ drawerRef }: { drawerRef: DrawerRefType }) => {
 
   const pathname = usePathname();
 
+  const links = isSignedIn ? signedInLinks : signedOutLinks;
+
   return (
     <ul className="menu border-l-3 border-double border-gray-500 ">
       {links.map((link) => {
-        // Determine the background class based on the pathname and specific link
-        const bgClass =
-          pathname === link.href
-            ? link.href === '/add-event'
-              ? 'bg-blue-700'
-              : link.href === '/my-events'
-              ? 'bg-blue-700'
-              : link.href === '/'
-              ? 'bg-blue-700'
-              : 'bg-blue-500'
-            : 'bg-blue-500';
+        const bgClass = pathname === link.href ? 'bg-blue-700' : 'bg-blue-500';
+
         return (
           <li key={link.href}>
             <Link
@@ -47,4 +48,5 @@ const NavLinks = ({ drawerRef }: { drawerRef: DrawerRefType }) => {
     </ul>
   );
 };
+
 export default NavLinks;

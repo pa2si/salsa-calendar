@@ -23,15 +23,14 @@ const Sidebar = () => {
     }
   }, [isLoaded]);
 
-  const drawerRef = useRef<HTMLInputElement>(null); // Initialize drawerRef with the correct type
+  const drawerRef = useRef<HTMLInputElement>(null);
 
   const handleMenuClick = () => {
     if (drawerRef.current) {
-      drawerRef.current.click(); // Trigger the click event on drawerRef if it's not null
+      drawerRef.current.click();
     }
   };
 
-  // Check if the current pathname matches '/create-event' or '/all-events'
   const isAddOrMyEventsPage =
     pathname === '/add-event' || pathname === '/my-events';
 
@@ -94,19 +93,28 @@ const Sidebar = () => {
               </div>
             ) : (
               <>
-                <li className="">
-                  {/* 'About' button to open a modal, modal implementation can be added later */}
-                  <button
-                    className="btn w-full text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg px-4 py-2 mx-1 transition duration-150 ease-in-out"
-                    onClick={handleMenuClick}
-                  >
-                    About
-                  </button>
-                </li>
+                {!isSignedIn && (
+                  <li>
+                    <button
+                      className="btn w-full text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg px-4 py-2 mx-1 transition duration-150 ease-in-out"
+                      onClick={handleMenuClick}
+                    >
+                      About
+                    </button>
+                  </li>
+                )}
                 {isSignedIn ? (
                   <>
                     <li>
-                      <NavLinks drawerRef={drawerRef} />
+                      <NavLinks drawerRef={drawerRef} isSignedIn={isSignedIn} />
+                    </li>
+                    <li>
+                      <button
+                        className="btn w-full text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg px-4 py-2 mx-1 transition duration-150 ease-in-out"
+                        onClick={handleMenuClick}
+                      >
+                        About
+                      </button>
                     </li>
                     <li className="mt-6">
                       <MemberProfile />
@@ -114,7 +122,6 @@ const Sidebar = () => {
                   </>
                 ) : (
                   <div className="flex justify-center items-center">
-                    {/* 'About' button to open a modal, modal implementation can be added later */}
                     <button className="btn text-2xl" onClick={handleMenuClick}>
                       <SlLogin size={40} />
                       <Link href="/sign-in">login</Link>
