@@ -41,6 +41,7 @@ export const createAndEditEventSchema = z.object({
     })
     .max(100, { message: 'Event name must not exceed 100 characters' }),
   imageUrl: z.string().optional(),
+  mapsLink: z.string(),
   checkedGenres: z.array(z.string()).min(1, {
     message: 'At least one genre must be selected',
   }),

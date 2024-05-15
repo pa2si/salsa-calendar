@@ -1,10 +1,13 @@
-v 0.1.16
+v 0.1.17
 
 that's new:
 
-- datepicker now clothes when choosing a date
+- google maps link in the form and also in the eventCard the location is now a clickable link if there is a link
 
 to dos:
+
+- sidebar shall close then hitting the home button or the calendar button
+- trying to register with a new account and add an event. see if i only see my event or all!
 
 - order of about and Nav Links change when logged in
 - check if only the events of the user are shown in the my events or all events

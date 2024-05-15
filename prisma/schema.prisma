@@ -28,4 +28,5 @@ model Event {
   country String
   genre String[]
   imageUrl   String?
+  mapsLink String?
 }

@@ -36,7 +36,23 @@ function EventCard({ event }: { event: EventType }) {
         <div className="grid grid-cols-2 gap-3">
           <EventInfo icon={<CalendarDays />} text={formattedDate} />
           <EventInfo icon={<Clock />} text={event.time} />
-          <EventInfo icon={<MapPin />} text={event.locationName} />
+          <EventInfo
+            icon={<MapPin />}
+            text={
+              event.mapsLink ? (
+                <a
+                  href={event.mapsLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 underline"
+                >
+                  {event.locationName}
+                </a>
+              ) : (
+                event.locationName
+              )
+            }
+          />
         </div>
         <div className="ml-8 text-gray-700">
           <EventInfo

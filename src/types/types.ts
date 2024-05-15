@@ -35,6 +35,7 @@ export type EventType = {
   country: string;
   genre: string[];
   imageUrl?: string | null;
+  mapsLink?: string | null;
 };
 
 export enum EventGenre {

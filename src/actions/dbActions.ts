@@ -37,6 +37,7 @@ export async function createEventAction(
         country: values.country,
         genre: values.checkedGenres,
         imageUrl: values.imageUrl,
+        mapsLink: values.mapsLink,
         clerkId: userId,
       },
     });

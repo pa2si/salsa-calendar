@@ -51,6 +51,7 @@ const CreateEventForm = () => {
       country: '',
       checkedGenres: [],
       imageUrl: '',
+      mapsLink: '',
     },
   });
 
@@ -160,6 +161,12 @@ const CreateEventForm = () => {
               locationData[key as keyof typeof locationData] as any
             );
           });
+
+          // Set the Google Maps link
+          const mapsLink = place.url;
+          if (mapsLink) {
+            form.setValue('mapsLink', mapsLink);
+          }
         } else {
           console.error(
             'No address components available for the selected place.'
@@ -476,6 +483,13 @@ const CreateEventForm = () => {
             name="country"
             control={form.control}
             placeholder="Enter a Country"
+          />
+          {/* Maps Link */}
+          <CustomFormField
+            labelText="Google Maps Link"
+            name="mapsLink"
+            control={form.control}
+            placeholder="Paste a Maps Link of the location "
           />
           <div className="flex flex-col mt-2 gap-2">
             {/* Genres */}
