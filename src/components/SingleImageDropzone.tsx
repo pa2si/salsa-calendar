@@ -47,6 +47,26 @@ const SingleImageDropzone = React.forwardRef<HTMLInputElement, InputProps>(
     { dropzoneOptions, width, height, value, className, disabled, onChange },
     ref
   ) => {
+    const preventEnterKeySubmission = (e: KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+      }
+    };
+    React.useEffect(() => {
+      const input = document.querySelector(
+        'input[type="file"]'
+      ) as HTMLInputElement;
+      if (input) {
+        input.addEventListener('keydown', preventEnterKeySubmission);
+      }
+
+      return () => {
+        if (input) {
+          input.removeEventListener('keydown', preventEnterKeySubmission);
+        }
+      };
+    }, []);
+
     const imageUrl = React.useMemo(() => {
       if (typeof value === 'string') {
         // in case a url is passed in, use it to display the image

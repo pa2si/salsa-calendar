@@ -1,8 +1,8 @@
-v 0.1.14
+v 0.1.15
 
 that's new:
 
-- Google Javascript API implemented for the form field when adding an event. "Auto complete feature"
+- prevent default by hitting enter when choosing in the input fields of the form and in the image upload
 
 to dos:
 

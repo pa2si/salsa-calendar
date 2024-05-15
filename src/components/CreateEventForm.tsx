@@ -55,9 +55,17 @@ const CreateEventForm = () => {
   });
 
   useEffect(() => {
+    const preventEnterKeySubmission = (e: KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+      }
+    };
+
     const initAutocompleteCity = () => {
       const input = document.getElementById('city') as HTMLInputElement;
       if (!input) return;
+
+      input.addEventListener('keydown', preventEnterKeySubmission);
 
       const autocomplete = new window.google.maps.places.Autocomplete(input, {
         types: ['(cities)'],
@@ -101,6 +109,8 @@ const CreateEventForm = () => {
     const initAutocompleteLocation = () => {
       const input = document.getElementById('locationName') as HTMLInputElement;
       if (!input) return;
+
+      input.addEventListener('keydown', preventEnterKeySubmission);
 
       const autocomplete = new window.google.maps.places.Autocomplete(input, {
         types: ['establishment'],
@@ -162,6 +172,8 @@ const CreateEventForm = () => {
       const input = document.getElementById('street') as HTMLInputElement;
       if (!input) return;
 
+      input.addEventListener('keydown', preventEnterKeySubmission);
+
       const autocomplete = new window.google.maps.places.Autocomplete(input, {
         types: ['address'],
       });
@@ -214,6 +226,8 @@ const CreateEventForm = () => {
       const input = document.getElementById('postal') as HTMLInputElement;
       if (!input) return;
 
+      input.addEventListener('keydown', preventEnterKeySubmission);
+
       const autocomplete = new window.google.maps.places.Autocomplete(input, {
         types: ['postal_code'],
       });
@@ -262,6 +276,8 @@ const CreateEventForm = () => {
     const initAutocompleteCountry = () => {
       const input = document.getElementById('country') as HTMLInputElement;
       if (!input) return;
+
+      input.addEventListener('keydown', preventEnterKeySubmission);
 
       const autocomplete = new window.google.maps.places.Autocomplete(input, {
         types: ['(regions)'],
@@ -347,6 +363,16 @@ const CreateEventForm = () => {
     };
 
     loadGoogleMapsScript();
+
+    // Cleanup function to remove event listeners
+    return () => {
+      const inputs = document.querySelectorAll(
+        '#city, #locationName, #street, #postal, #country'
+      ) as NodeListOf<HTMLInputElement>;
+      inputs.forEach((input) => {
+        input.removeEventListener('keydown', preventEnterKeySubmission);
+      });
+    };
   }, [form]);
 
   const queryClient = useQueryClient();
@@ -430,23 +456,27 @@ const CreateEventForm = () => {
             name="street"
             labelText="Street and Number"
             control={form.control}
-            placeholder="Enter the Street"
+            placeholder="Enter a Street"
           />
           {/* City */}
           <CustomFormField
             name="city"
             control={form.control}
-            placeholder="Enter the City"
+            placeholder="Enter a City"
           />
           {/*  Postal*/}
           <CustomFormField
             name="postal"
             control={form.control}
             labelText="postal code"
-            placeholder="Enter the Postal Code"
+            placeholder="Enter a Postal Code"
           />
           {/* Country */}
-          <CustomFormField name="country" control={form.control} />
+          <CustomFormField
+            name="country"
+            control={form.control}
+            placeholder="Enter a Country"
+          />
           <div className="flex flex-col mt-2 gap-2">
             {/* Genres */}
             <FormLabel className="mb-2">Genre</FormLabel>
