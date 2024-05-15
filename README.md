@@ -1,8 +1,8 @@
-v 0.1.15
+v 0.1.16
 
 that's new:
 
-- prevent default by hitting enter when choosing in the input fields of the form and in the image upload
+- datepicker now clothes when choosing a date
 
 to dos:
 

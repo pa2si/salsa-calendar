@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { format } from 'date-fns';
 import { ErrorMessage } from '@hookform/error-message';
 import { Calendar as CalendarIcon } from 'lucide-react';
@@ -17,6 +17,7 @@ export function DatePicker({ name }: { name: string }) {
     control,
     formState: { errors },
   } = useFormContext();
+  const [open, setOpen] = useState(false);
 
   return (
     <div className="flex flex-col">
@@ -25,11 +26,12 @@ export function DatePicker({ name }: { name: string }) {
         name={name}
         control={control}
         render={({ field }) => (
-          <Popover>
+          <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
               <Button
                 variant={'outline'}
                 className="w-[175px] justify-start text-left font-normal"
+                onClick={() => setOpen(!open)}
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
                 {field.value ? (
@@ -45,6 +47,7 @@ export function DatePicker({ name }: { name: string }) {
                 selected={field.value ? new Date(field.value) : undefined}
                 onSelect={(date) => {
                   field.onChange(date);
+                  setOpen(false);
                   // console.log('Selected Date:', date, typeof date);
                 }}
                 initialFocus
