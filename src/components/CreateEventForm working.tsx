@@ -27,9 +27,6 @@ declare global {
     google: typeof google;
     initAutocompleteCity: () => void;
     initAutocompleteLocation: () => void;
-    initAutocompleteStreet: () => void;
-    initAutocompletePostal: () => void;
-    initAutocompleteCountry: () => void;
   }
 }
 
@@ -158,149 +155,11 @@ const CreateEventForm = () => {
       });
     };
 
-    const initAutocompleteStreet = () => {
-      const input = document.getElementById('street') as HTMLInputElement;
-      if (!input) return;
-
-      const autocomplete = new window.google.maps.places.Autocomplete(input, {
-        types: ['address'],
-      });
-
-      autocomplete.addListener('place_changed', () => {
-        const place = autocomplete.getPlace();
-        const addressComponents = place.address_components;
-
-        if (addressComponents) {
-          const locationData: Partial<
-            Pick<EventType, 'street' | 'city' | 'country'>
-          > = {
-            street: '',
-            city: '',
-            country: '',
-          };
-
-          addressComponents.forEach((component) => {
-            const types = component.types;
-            if (types.includes('street_number')) {
-              locationData.street += ` ${component.long_name}`;
-            }
-            if (types.includes('route')) {
-              locationData.street = `${component.long_name}${locationData.street}`;
-            }
-            if (types.includes('locality')) {
-              locationData.city = component.long_name;
-            }
-            if (types.includes('country')) {
-              locationData.country = component.long_name;
-            }
-          });
-
-          // Set form values
-          Object.keys(locationData).forEach((key) => {
-            form.setValue(
-              key as keyof CreateAndEditEventType,
-              locationData[key as keyof typeof locationData] as any
-            );
-          });
-        } else {
-          console.error(
-            'No address components available for the selected place.'
-          );
-        }
-      });
-    };
-
-    const initAutocompletePostal = () => {
-      const input = document.getElementById('postal') as HTMLInputElement;
-      if (!input) return;
-
-      const autocomplete = new window.google.maps.places.Autocomplete(input, {
-        types: ['postal_code'],
-      });
-
-      autocomplete.addListener('place_changed', () => {
-        const place = autocomplete.getPlace();
-        const addressComponents = place.address_components;
-
-        if (addressComponents) {
-          const locationData: Partial<
-            Pick<EventType, 'postal' | 'city' | 'country'>
-          > = {
-            postal: '',
-            city: '',
-            country: '',
-          };
-
-          addressComponents.forEach((component) => {
-            const types = component.types;
-            if (types.includes('postal_code')) {
-              locationData.postal = component.long_name;
-            }
-            if (types.includes('locality')) {
-              locationData.city = component.long_name;
-            }
-            if (types.includes('country')) {
-              locationData.country = component.long_name;
-            }
-          });
-
-          // Set form values
-          Object.keys(locationData).forEach((key) => {
-            form.setValue(
-              key as keyof CreateAndEditEventType,
-              locationData[key as keyof typeof locationData] as any
-            );
-          });
-        } else {
-          console.error(
-            'No address components available for the selected place.'
-          );
-        }
-      });
-    };
-
-    const initAutocompleteCountry = () => {
-      const input = document.getElementById('country') as HTMLInputElement;
-      if (!input) return;
-
-      const autocomplete = new window.google.maps.places.Autocomplete(input, {
-        types: ['(regions)'],
-      });
-
-      autocomplete.addListener('place_changed', () => {
-        const place = autocomplete.getPlace();
-        const addressComponents = place.address_components;
-
-        if (addressComponents) {
-          const locationData: Partial<Pick<EventType, 'country'>> = {
-            country: '',
-          };
-
-          addressComponents.forEach((component) => {
-            const types = component.types;
-            if (types.includes('country')) {
-              locationData.country = component.long_name;
-            }
-          });
-
-          // Set form values
-          form.setValue('country', locationData.country as any);
-        } else {
-          console.error(
-            'No address components available for the selected place.'
-          );
-        }
-      });
-    };
-
     const loadGoogleMapsScript = () => {
       if (typeof window.google === 'object' && window.google.maps) {
         (window as any).googleMapsReady = true;
         window.initAutocompleteCity();
         window.initAutocompleteLocation();
-        window.initAutocompleteStreet();
-        window.initAutocompletePostal();
-        window.initAutocompleteCountry();
         return;
       }
 
@@ -319,29 +178,17 @@ const CreateEventForm = () => {
           (window as any).googleMapsReady = true;
           window.initAutocompleteCity();
           window.initAutocompleteLocation();
-          window.initAutocompleteStreet();
-          window.initAutocompletePostal();
-          window.initAutocompleteCountry();
         };
 
         window.initAutocompleteCity = initAutocompleteCity;
         window.initAutocompleteLocation = initAutocompleteLocation;
-        window.initAutocompleteStreet = initAutocompleteStreet;
-        window.initAutocompletePostal = initAutocompletePostal;
-        window.initAutocompleteCountry = initAutocompleteCountry;
       } else {
         window.initAutocompleteCity = initAutocompleteCity;
         window.initAutocompleteLocation = initAutocompleteLocation;
-        window.initAutocompleteStreet = initAutocompleteStreet;
-        window.initAutocompletePostal = initAutocompletePostal;
-        window.initAutocompleteCountry = initAutocompleteCountry;
 
         if ((window as any).googleMapsReady) {
           window.initAutocompleteCity();
           window.initAutocompleteLocation();
-          window.initAutocompleteStreet();
-          window.initAutocompletePostal();
-          window.initAutocompleteCountry();
         }
       }
     };
@@ -430,7 +277,6 @@ const CreateEventForm = () => {
             name="street"
             labelText="Street and Number"
             control={form.control}
-            placeholder="Enter the Street"
           />
           {/* City */}
           <CustomFormField
@@ -443,7 +289,6 @@ const CreateEventForm = () => {
             name="postal"
             control={form.control}
             labelText="postal code"
-            placeholder="Enter the Postal Code"
           />
           {/* Country */}
           <CustomFormField name="country" control={form.control} />

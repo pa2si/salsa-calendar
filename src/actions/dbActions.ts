@@ -29,6 +29,7 @@ export async function createEventAction(
       data: {
         eventName: values.eventName,
         date: values.date,
+        time: values.time,
         locationName: values.locationName,
         street: values.street,
         city: values.city,

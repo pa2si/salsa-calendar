@@ -63,7 +63,7 @@ export function TimePicker({ name }: { name: string }) {
                 const time = `${hour}:${value}`; // Combine with hour
                 field.onChange(time); // Update form field
 
-                // console.log('Selected Time:', combinedTime);
+                // console.log('Selected Time:', time);
               }}
             >
               <SelectTrigger className="w-[60px]">

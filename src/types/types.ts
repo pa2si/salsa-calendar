@@ -26,6 +26,8 @@ export type EventType = {
   clerkId: string;
   eventName: string;
   date: Date;
+  time: string;
+  formattedDate?: string;
   locationName: string;
   street: string;
   city: string;

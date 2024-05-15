@@ -20,6 +20,7 @@ model Event {
   updatedAt DateTime @updatedAt
   eventName String
   date DateTime
+  time String
   locationName String
   street String
   city String

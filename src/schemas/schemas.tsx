@@ -1,6 +1,7 @@
 import * as z from 'zod';
 
 export const createAndEditEventSchema = z.object({
+  id: z.string(),
   eventName: z
     .string()
     .min(2, {

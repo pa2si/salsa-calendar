@@ -12,12 +12,24 @@ import { EventGenre } from '@/types/types';
 import { Button } from './ui/button';
 
 function SearchForm() {
+  const searchParams = useSearchParams();
+  const search = searchParams.get('search') || '';
+  const genre = searchParams.get('genre') || 'all';
+
+  const router = useRouter();
+  const pathname = usePathname();
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const search = formData.get('search') as string;
-    const genres = formData.getAll('genres') as string[]; // Changed to getAll for potential multiple selections
-    console.log(search, genres);
+    const genre = formData.get('genre') as string; // Changed to getAll for potential multiple selections
+    console.log(search, genre);
+    let params = new URLSearchParams();
+    params.set('search', search);
+    params.set('genre', genre);
+
+    router.push(`${pathname}?${params.toString()}`);
   };
 
   return (
@@ -25,8 +37,13 @@ function SearchForm() {
       className="mb-16 p-8 grid sm:grid-cols-2 md:grid-cols-3 gap-4 rounded-lg"
       onSubmit={handleSubmit}
     >
-      <Input type="text" placeholder="Search Events" name="search" />
-      <Select name="genres">
+      <Input
+        type="text"
+        placeholder="Search Events"
+        name="search"
+        defaultValue={search}
+      />
+      <Select name="genre" defaultValue={genre}>
         {' '}
         {/* Added `multiple` if needed */}
         <SelectTrigger>

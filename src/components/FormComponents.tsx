@@ -20,12 +20,14 @@ type CustomFormFieldProps = {
   name: string;
   control: Control<any>;
   labelText?: string;
+  placeholder?: string;
 };
 
 export function CustomFormField({
   name,
   control,
   labelText,
+  placeholder,
 }: CustomFormFieldProps) {
   return (
     <FormField
@@ -37,7 +39,9 @@ export function CustomFormField({
           <FormControl>
             <Input
               {...field}
+              id={name}
               className="w-full sm:w-64 md:w-80 lg:w-72 xl:w-80"
+              placeholder={placeholder}
             />
           </FormControl>
           {/* <FormDescription>This is your public display name.</FormDescription> */}

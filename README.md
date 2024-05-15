@@ -1,13 +1,13 @@
-v 0.1.13
+v 0.1.14
 
 that's new:
 
-- search option in all events page implemented.
+- Google Javascript API implemented for the form field when adding an event. "Auto complete feature"
 
 to dos:
 
 - order of about and Nav Links change when logged in
-- show my events
+- check if only the events of the user are shown in the my events or all events
 - filter buttons
 - toast for login
 
@@ -20,5 +20,6 @@ done:
   - Navigation
   - ViewButton
   - DayCard
-- /add Event Url
+- /add-event Url with Form using also Google Javascript API
+- /my-events Url : shows all events.
 - Prisma db integration with form submit

@@ -37,7 +37,7 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`z-50 absolute ${
+      className={`z-50 fixed ${
         isAddOrMyEventsPage ? 'lg:top-0 lg:left-0' : 'top-5 left-5'
       }`}
     >

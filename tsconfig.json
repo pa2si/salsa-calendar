@@ -5,6 +5,7 @@
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
+    "types": ["@types/google.maps"],
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "bundler",
