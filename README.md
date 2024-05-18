@@ -1,8 +1,9 @@
-v 0.1.18
+v 0.1.19
 
 that's new:
 
-- order of menu links changed when logged in
+- refactured form now with exported googlemaps autocomplete logic and also clean the form correctly.
+- starting of adding the edit event components
 
 to dos:
 

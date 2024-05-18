@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
@@ -15,26 +14,16 @@ import { DatePicker } from './Datepicker';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createEventAction } from '@/actions/dbActions';
 import toast from 'react-hot-toast';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { TimePicker } from './Timepicker';
 import { FormLabel } from '@/components/ui/form';
 import UploadFile from './UploadFile';
 import { useEdgeStore } from '@/lib/providers';
-import { EventType } from '@/types/types';
-
-declare global {
-  interface Window {
-    google: typeof google;
-    initAutocompleteCity: () => void;
-    initAutocompleteLocation: () => void;
-    initAutocompleteStreet: () => void;
-    initAutocompletePostal: () => void;
-    initAutocompleteCountry: () => void;
-  }
-}
+import useGoogleAutocomplete from '@/lib/useGoogleAutocomplete';
 
 const CreateEventForm = () => {
   const { edgestore } = useEdgeStore();
+  const pathname = usePathname();
 
   // 1. Define your form.
   const form = useForm<CreateAndEditEventType>({
@@ -55,332 +44,8 @@ const CreateEventForm = () => {
     },
   });
 
-  useEffect(() => {
-    const preventEnterKeySubmission = (e: KeyboardEvent) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-      }
-    };
-
-    const initAutocompleteCity = () => {
-      const input = document.getElementById('city') as HTMLInputElement;
-      if (!input) return;
-
-      input.addEventListener('keydown', preventEnterKeySubmission);
-
-      const autocomplete = new window.google.maps.places.Autocomplete(input, {
-        types: ['(cities)'],
-      });
-
-      autocomplete.addListener('place_changed', () => {
-        const place = autocomplete.getPlace();
-        const addressComponents = place.address_components;
-
-        if (addressComponents) {
-          const locationData: Partial<Pick<EventType, 'city' | 'country'>> = {
-            city: '',
-            country: '',
-          };
-
-          addressComponents.forEach((component) => {
-            const types = component.types;
-            if (types.includes('locality')) {
-              locationData.city = component.long_name;
-            }
-            if (types.includes('country')) {
-              locationData.country = component.long_name;
-            }
-          });
-
-          // Set form values
-          Object.keys(locationData).forEach((key) => {
-            form.setValue(
-              key as keyof CreateAndEditEventType,
-              locationData[key as keyof typeof locationData] as any
-            );
-          });
-        } else {
-          console.error(
-            'No address components available for the selected place.'
-          );
-        }
-      });
-    };
-
-    const initAutocompleteLocation = () => {
-      const input = document.getElementById('locationName') as HTMLInputElement;
-      if (!input) return;
-
-      input.addEventListener('keydown', preventEnterKeySubmission);
-
-      const autocomplete = new window.google.maps.places.Autocomplete(input, {
-        types: ['establishment'],
-      });
-
-      autocomplete.addListener('place_changed', () => {
-        const place = autocomplete.getPlace();
-        const addressComponents = place.address_components;
-
-        if (addressComponents) {
-          const locationData: Partial<
-            Pick<
-              EventType,
-              'locationName' | 'street' | 'city' | 'postal' | 'country'
-            >
-          > = {
-            locationName: place.name || '',
-            street: '',
-            city: '',
-            postal: '',
-            country: '',
-          };
-
-          addressComponents.forEach((component) => {
-            const types = component.types;
-            if (types.includes('street_number')) {
-              locationData.street += ` ${component.long_name}`;
-            }
-            if (types.includes('route')) {
-              locationData.street = `${component.long_name}${locationData.street}`;
-            }
-            if (types.includes('locality')) {
-              locationData.city = component.long_name;
-            }
-            if (types.includes('postal_code')) {
-              locationData.postal = component.long_name;
-            }
-            if (types.includes('country')) {
-              locationData.country = component.long_name;
-            }
-          });
-
-          // Set form values
-          Object.keys(locationData).forEach((key) => {
-            form.setValue(
-              key as keyof CreateAndEditEventType,
-              locationData[key as keyof typeof locationData] as any
-            );
-          });
-
-          // Set the Google Maps link
-          const mapsLink = place.url;
-          if (mapsLink) {
-            form.setValue('mapsLink', mapsLink);
-          }
-        } else {
-          console.error(
-            'No address components available for the selected place.'
-          );
-        }
-      });
-    };
-
-    const initAutocompleteStreet = () => {
-      const input = document.getElementById('street') as HTMLInputElement;
-      if (!input) return;
-
-      input.addEventListener('keydown', preventEnterKeySubmission);
-
-      const autocomplete = new window.google.maps.places.Autocomplete(input, {
-        types: ['address'],
-      });
-
-      autocomplete.addListener('place_changed', () => {
-        const place = autocomplete.getPlace();
-        const addressComponents = place.address_components;
-
-        if (addressComponents) {
-          const locationData: Partial<
-            Pick<EventType, 'street' | 'city' | 'country'>
-          > = {
-            street: '',
-            city: '',
-            country: '',
-          };
-
-          addressComponents.forEach((component) => {
-            const types = component.types;
-            if (types.includes('street_number')) {
-              locationData.street += ` ${component.long_name}`;
-            }
-            if (types.includes('route')) {
-              locationData.street = `${component.long_name}${locationData.street}`;
-            }
-            if (types.includes('locality')) {
-              locationData.city = component.long_name;
-            }
-            if (types.includes('country')) {
-              locationData.country = component.long_name;
-            }
-          });
-
-          // Set form values
-          Object.keys(locationData).forEach((key) => {
-            form.setValue(
-              key as keyof CreateAndEditEventType,
-              locationData[key as keyof typeof locationData] as any
-            );
-          });
-        } else {
-          console.error(
-            'No address components available for the selected place.'
-          );
-        }
-      });
-    };
-
-    const initAutocompletePostal = () => {
-      const input = document.getElementById('postal') as HTMLInputElement;
-      if (!input) return;
-
-      input.addEventListener('keydown', preventEnterKeySubmission);
-
-      const autocomplete = new window.google.maps.places.Autocomplete(input, {
-        types: ['postal_code'],
-      });
-
-      autocomplete.addListener('place_changed', () => {
-        const place = autocomplete.getPlace();
-        const addressComponents = place.address_components;
-
-        if (addressComponents) {
-          const locationData: Partial<
-            Pick<EventType, 'postal' | 'city' | 'country'>
-          > = {
-            postal: '',
-            city: '',
-            country: '',
-          };
-
-          addressComponents.forEach((component) => {
-            const types = component.types;
-            if (types.includes('postal_code')) {
-              locationData.postal = component.long_name;
-            }
-            if (types.includes('locality')) {
-              locationData.city = component.long_name;
-            }
-            if (types.includes('country')) {
-              locationData.country = component.long_name;
-            }
-          });
-
-          // Set form values
-          Object.keys(locationData).forEach((key) => {
-            form.setValue(
-              key as keyof CreateAndEditEventType,
-              locationData[key as keyof typeof locationData] as any
-            );
-          });
-        } else {
-          console.error(
-            'No address components available for the selected place.'
-          );
-        }
-      });
-    };
-
-    const initAutocompleteCountry = () => {
-      const input = document.getElementById('country') as HTMLInputElement;
-      if (!input) return;
-
-      input.addEventListener('keydown', preventEnterKeySubmission);
-
-      const autocomplete = new window.google.maps.places.Autocomplete(input, {
-        types: ['(regions)'],
-      });
-
-      autocomplete.addListener('place_changed', () => {
-        const place = autocomplete.getPlace();
-        const addressComponents = place.address_components;
-
-        if (addressComponents) {
-          const locationData: Partial<Pick<EventType, 'country'>> = {
-            country: '',
-          };
-
-          addressComponents.forEach((component) => {
-            const types = component.types;
-            if (types.includes('country')) {
-              locationData.country = component.long_name;
-            }
-          });
-
-          // Set form values
-          form.setValue('country', locationData.country as any);
-        } else {
-          console.error(
-            'No address components available for the selected place.'
-          );
-        }
-      });
-    };
-
-    const loadGoogleMapsScript = () => {
-      if (typeof window.google === 'object' && window.google.maps) {
-        (window as any).googleMapsReady = true;
-        window.initAutocompleteCity();
-        window.initAutocompleteLocation();
-        window.initAutocompleteStreet();
-        window.initAutocompletePostal();
-        window.initAutocompleteCountry();
-        return;
-      }
-
-      if (!document.querySelector('#google-maps-script')) {
-        const script = document.createElement('script');
-        script.id = 'google-maps-script';
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places&callback=googleMapsLoaded&loading=async`;
-        script.async = true;
-        script.defer = true;
-        script.onerror = () => {
-          console.error('Failed to load Google Maps script.');
-        };
-        document.head.appendChild(script);
-
-        (window as any).googleMapsLoaded = () => {
-          (window as any).googleMapsReady = true;
-          window.initAutocompleteCity();
-          window.initAutocompleteLocation();
-          window.initAutocompleteStreet();
-          window.initAutocompletePostal();
-          window.initAutocompleteCountry();
-        };
-
-        window.initAutocompleteCity = initAutocompleteCity;
-        window.initAutocompleteLocation = initAutocompleteLocation;
-        window.initAutocompleteStreet = initAutocompleteStreet;
-        window.initAutocompletePostal = initAutocompletePostal;
-        window.initAutocompleteCountry = initAutocompleteCountry;
-      } else {
-        window.initAutocompleteCity = initAutocompleteCity;
-        window.initAutocompleteLocation = initAutocompleteLocation;
-        window.initAutocompleteStreet = initAutocompleteStreet;
-        window.initAutocompletePostal = initAutocompletePostal;
-        window.initAutocompleteCountry = initAutocompleteCountry;
-
-        if ((window as any).googleMapsReady) {
-          window.initAutocompleteCity();
-          window.initAutocompleteLocation();
-          window.initAutocompleteStreet();
-          window.initAutocompletePostal();
-          window.initAutocompleteCountry();
-        }
-      }
-    };
-
-    loadGoogleMapsScript();
-
-    // Cleanup function to remove event listeners
-    return () => {
-      const inputs = document.querySelectorAll(
-        '#city, #locationName, #street, #postal, #country'
-      ) as NodeListOf<HTMLInputElement>;
-      inputs.forEach((input) => {
-        input.removeEventListener('keydown', preventEnterKeySubmission);
-      });
-    };
-  }, [form]);
+  // Use the custom hook for Google Autocomplete
+  useGoogleAutocomplete(form);
 
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -409,7 +74,8 @@ const CreateEventForm = () => {
       toast.success('Event added successfully');
       queryClient.invalidateQueries({ queryKey: ['events'] });
 
-      // form.reset()
+      // Reset form after successful submission
+      form.reset();
       router.push('/');
     },
     onError: (error) => {
@@ -420,7 +86,6 @@ const CreateEventForm = () => {
 
   // 2. Define a submit handler.
   function onSubmit(values: CreateAndEditEventType) {
-    // console.log(values);
     mutate(values);
   }
 
@@ -519,4 +184,5 @@ const CreateEventForm = () => {
     </Form>
   );
 };
+
 export default CreateEventForm;

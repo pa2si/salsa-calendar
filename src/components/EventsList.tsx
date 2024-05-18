@@ -1,7 +1,7 @@
 'use client';
 
 import EventCard from './EventCard';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { getAllEventsAction } from '@/actions/dbActions';
 import { useQuery } from '@tanstack/react-query';
 

@@ -1,5 +1,5 @@
 import { EventType } from '@/types/types';
-import { MapPin, Earth, Clock, CalendarDays, AudioLines } from 'lucide-react';
+import { MapPin, Clock, CalendarDays, AudioLines } from 'lucide-react';
 import Link from 'next/link';
 import {
   Card,
@@ -33,27 +33,27 @@ function EventCard({ event }: { event: EventType }) {
       </CardHeader>
       <Separator />
       <CardContent className="mt-4">
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-3 mb-3">
           <EventInfo icon={<CalendarDays />} text={formattedDate} />
           <EventInfo icon={<Clock />} text={event.time} />
-          <EventInfo
-            icon={<MapPin />}
-            text={
-              event.mapsLink ? (
-                <a
-                  href={event.mapsLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 underline"
-                >
-                  {event.locationName}
-                </a>
-              ) : (
-                event.locationName
-              )
-            }
-          />
         </div>
+        <EventInfo
+          icon={<MapPin />}
+          text={
+            event.mapsLink ? (
+              <a
+                href={event.mapsLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 underline "
+              >
+                {event.locationName}
+              </a>
+            ) : (
+              event.locationName
+            )
+          }
+        />
         <div className="ml-8 text-gray-700">
           <EventInfo
             icon=""
@@ -81,11 +81,12 @@ function EventCard({ event }: { event: EventType }) {
           </div>
         )}
       </CardContent>
-      <CardFooter className="flex gap-4">
+      <Separator />
+      <CardFooter className="flex gap-4 mt-4">
         <Button asChild size="sm" className="bg-blue-500 hover:bg-blue-700">
           <Link href={`/myevents/${event.id}`}>edit</Link>
         </Button>
-        <DeleteEventBtn />
+        <DeleteEventBtn id={event.id} />
       </CardFooter>
     </Card>
   );

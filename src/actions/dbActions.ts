@@ -96,3 +96,61 @@ export async function getAllEventsAction({
     return { events: [], count: 0, page: 1, totalPages: 0 };
   }
 }
+
+export async function deleteEventAction(id: string): Promise<EventType | null> {
+  const userId = authenticateAndRedirect();
+
+  try {
+    const event: EventType = await prisma.event.delete({
+      where: {
+        id,
+        clerkId: userId,
+      },
+    });
+    return event;
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function getSingleEventAction(
+  id: string
+): Promise<EventType | null> {
+  let event: EventType | null = null;
+  const userId = authenticateAndRedirect();
+  try {
+    event = await prisma.event.findUnique({
+      where: {
+        id,
+        clerkId: userId,
+      },
+    });
+  } catch (error) {
+    event = null;
+  }
+  if (!event) {
+    redirect('/my-events');
+  }
+  return event;
+}
+
+export async function updateEventAction(
+  id: string,
+  values: CreateAndEditEventType
+): Promise<EventType | null> {
+  const userId = authenticateAndRedirect();
+  try {
+    const event: EventType = await prisma.event.update({
+      where: {
+        id,
+        clerkId: userId,
+      },
+      data: {
+        ...values,
+      },
+    });
+    return event;
+  } catch (error) {
+    return null;
+  }
+}
