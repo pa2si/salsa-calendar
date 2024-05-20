@@ -35,7 +35,7 @@ export async function createEventAction(
         city: values.city,
         postal: values.postal,
         country: values.country,
-        genre: values.checkedGenres,
+        genres: values.genres,
         imageUrl: values.imageUrl,
         mapsLink: values.mapsLink,
         clerkId: userId,
@@ -81,7 +81,7 @@ export async function getAllEventsAction({
     if (genre && genre !== 'all') {
       whereClause = {
         ...whereClause,
-        genre: { has: genre },
+        genres: { has: genre },
       };
     }
 
@@ -125,6 +125,7 @@ export async function getSingleEventAction(
         clerkId: userId,
       },
     });
+    // console.log('getSingleEventAction:', event);
   } catch (error) {
     event = null;
   }
@@ -140,6 +141,9 @@ export async function updateEventAction(
 ): Promise<EventType | null> {
   const userId = authenticateAndRedirect();
   try {
+    // console.log('User ID:', userId);
+    // console.log('Updating event with ID:', id);
+    // console.log('Updating event with values:', values);
     const event: EventType = await prisma.event.update({
       where: {
         id,
@@ -149,8 +153,10 @@ export async function updateEventAction(
         ...values,
       },
     });
+    // console.log('this is the updateEventAction with following event:', event);
     return event;
   } catch (error) {
+    // console.error('Error updating event:', error);
     return null;
   }
 }

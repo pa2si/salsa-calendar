@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { CreateAndEditEventType } from '@/types/types';
 
@@ -14,6 +14,8 @@ declare global {
 }
 
 const useGoogleAutocomplete = (form: UseFormReturn<CreateAndEditEventType>) => {
+  const [locationName, setLocationName] = useState('');
+
   const initializeAutocomplete = useCallback(() => {
     const preventEnterKeySubmission = (e: KeyboardEvent) => {
       if (e.key === 'Enter') {
@@ -38,6 +40,9 @@ const useGoogleAutocomplete = (form: UseFormReturn<CreateAndEditEventType>) => {
         if (addressComponents) {
           const locationData: Partial<CreateAndEditEventType> = {};
 
+          let streetName = '';
+          let streetNumber = '';
+
           addressComponents.forEach((component) => {
             const types = component.types;
             if (types.includes('locality')) {
@@ -47,19 +52,20 @@ const useGoogleAutocomplete = (form: UseFormReturn<CreateAndEditEventType>) => {
               locationData.country = component.long_name;
             }
             if (types.includes('street_number')) {
-              locationData.street = `${component.long_name} ${
-                locationData.street || ''
-              }`.trim();
+              streetNumber = component.long_name;
             }
             if (types.includes('route')) {
-              locationData.street = `${locationData.street || ''} ${
-                component.long_name
-              }`.trim();
+              streetName = component.long_name;
             }
             if (types.includes('postal_code')) {
               locationData.postal = component.long_name;
             }
           });
+
+          // Combine street name and number in the desired order
+          if (streetName || streetNumber) {
+            locationData.street = `${streetName} ${streetNumber}`.trim();
+          }
 
           // Set form values
           Object.keys(locationData).forEach((key) => {
@@ -69,8 +75,14 @@ const useGoogleAutocomplete = (form: UseFormReturn<CreateAndEditEventType>) => {
             );
           });
 
-          if (id === 'locationName' && place.url) {
-            form.setValue('mapsLink', place.url);
+          // Update state with the selected place's name
+          if (id === 'locationName') {
+            const placeName = place.name || '';
+            setLocationName(placeName);
+            form.setValue('locationName', placeName); // Sync form value with the state
+            if (place.url) {
+              form.setValue('mapsLink', place.url);
+            }
           }
         } else {
           console.error(
@@ -144,6 +156,8 @@ const useGoogleAutocomplete = (form: UseFormReturn<CreateAndEditEventType>) => {
       });
     };
   }, [initializeAutocomplete]);
+
+  return { locationName, setLocationName };
 };
 
 export default useGoogleAutocomplete;

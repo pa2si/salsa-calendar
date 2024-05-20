@@ -31,16 +31,18 @@ const Sidebar = () => {
     }
   };
 
-  const isAddOrMyEventsPage =
-    pathname === '/add-event' || pathname === '/my-events';
+  const specificRoute =
+    pathname === '/add-event' ||
+    pathname === '/my-events' ||
+    /^\/my-events\/edit\/.+/.test(pathname);
 
   return (
     <div
       className={`z-50 fixed ${
-        isAddOrMyEventsPage ? 'lg:top-0 lg:left-0' : 'top-5 left-5'
+        specificRoute ? 'lg:top-0 lg:left-0' : 'top-5 left-5'
       }`}
     >
-      <div className={`drawer ${isAddOrMyEventsPage ? 'lg:drawer-open' : ''}`}>
+      <div className={`drawer ${specificRoute ? 'lg:drawer-open' : ''}`}>
         <input
           id="my-drawer"
           type="checkbox"
@@ -48,9 +50,7 @@ const Sidebar = () => {
           ref={drawerRef}
         />
         <div
-          className={`drawer-content ${
-            isAddOrMyEventsPage ? 'block lg:hidden' : ''
-          }`}
+          className={`drawer-content ${specificRoute ? 'block lg:hidden' : ''}`}
         >
           <label
             htmlFor="my-drawer"

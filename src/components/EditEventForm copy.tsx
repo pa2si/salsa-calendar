@@ -11,8 +11,8 @@ import { CustomFormField } from './FormComponents';
 import Genrepicker from './Genrepicker';
 import { DatePicker } from './Datepicker';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createEventAction } from '@/actions/dbActions';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { getSingleEventAction, updateEventAction } from '@/actions/dbActions';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { TimePicker } from './Timepicker';
@@ -21,50 +21,41 @@ import UploadFile from './UploadFile';
 import { useEdgeStore } from '@/lib/providers';
 import useGoogleAutocomplete from '@/lib/useGoogleAutocomplete';
 
-const CreateEventForm = () => {
+const EditEventForm = ({ eventId }: { eventId: string }) => {
   const { edgestore } = useEdgeStore();
+  const queryClient = useQueryClient();
+  const router = useRouter();
+
+  const { data } = useQuery({
+    queryKey: ['event', eventId],
+    queryFn: () => getSingleEventAction(eventId),
+  });
 
   // 1. Define your form.
   const form = useForm<CreateAndEditEventType>({
     resolver: zodResolver(createAndEditEventSchema),
     defaultValues: {
-      id: '',
-      eventName: '',
-      date: new Date(),
-      time: '',
-      locationName: '',
-      street: '',
-      city: '',
-      postal: '',
-      country: '',
-      genres: [],
-      imageUrl: '',
-      mapsLink: '',
+      id: data?.id || '',
+      eventName: data?.eventName || '',
+      date: data?.date || new Date(),
+      time: data?.time || '',
+      locationName: data?.locationName || '',
+      street: data?.street || '',
+      city: data?.city || '',
+      postal: data?.postal || '',
+      country: data?.country || '',
+      genres: data?.genres || [],
+      imageUrl: data?.imageUrl || '',
+      mapsLink: data?.mapsLink || '',
     },
   });
 
   // Use the custom hook for Google Autocomplete
   useGoogleAutocomplete(form);
 
-  const queryClient = useQueryClient();
-  const router = useRouter();
   const { mutate, isPending } = useMutation({
-    mutationFn: async (values: CreateAndEditEventType) => {
-      // Try to confirm the image upload if imageUrl is present
-      if (values.imageUrl) {
-        try {
-          await edgestore.publicImages.confirmUpload({
-            url: values.imageUrl,
-          });
-        } catch (error) {
-          console.error('Failed to confirm image upload:', error);
-          throw new Error('Failed to confirm image upload. Please try again.');
-        }
-      }
-
-      // Proceed to create the event with all collected values
-      return createEventAction(values);
-    },
+    mutationFn: (values: CreateAndEditEventType) =>
+      updateEventAction(eventId, values),
     onSuccess: (data) => {
       if (!data) {
         toast.error('There was an error processing your request.');
@@ -72,10 +63,11 @@ const CreateEventForm = () => {
       }
       toast.success('Event added successfully');
       queryClient.invalidateQueries({ queryKey: ['events'] });
+      queryClient.invalidateQueries({ queryKey: ['event', eventId] });
 
       // Reset form after successful submission
       // form.reset();
-      router.push('/');
+      router.push('/my-events');
     },
     onError: (error) => {
       // Handle errors more specifically if you can
@@ -85,6 +77,7 @@ const CreateEventForm = () => {
 
   // 2. Define a submit handler.
   function onSubmit(values: CreateAndEditEventType) {
+    console.log('Submitting values:', values);
     mutate(values);
   }
 
@@ -96,7 +89,7 @@ const CreateEventForm = () => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-8 rounded"
       >
-        <h2 className="capitalize font-semibold text-4xl mb-6">add Event</h2>
+        <h2 className="capitalize font-semibold text-4xl mb-6">edit Event</h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols3 items-start">
           {/*  Event Name */}
           <CustomFormField
@@ -162,7 +155,7 @@ const CreateEventForm = () => {
           </div>
           {/* Image Upload */}
           <div className="flex flex-col mt-2 gap-2">
-            <FormLabel className="mb-2">Upload Flyer</FormLabel>
+            <FormLabel className="mb-2">Upload a new Flyer</FormLabel>
             <div className="w-full sm:w-64 md:w-80 lg:w-72 xl:w-80 max-w-xs flex justify-center">
               <UploadFile
                 onUrlChange={(url) => form.setValue('imageUrl', url)} // Store the URL in the form state
@@ -177,11 +170,11 @@ const CreateEventForm = () => {
           className="capitalize bg-blue-500 hover:bg-blue-700 w-full"
           disabled={isPending}
         >
-          {isPending ? 'loading' : 'add Event'}
+          {isPending ? 'loading' : 'edit Event'}
         </Button>
       </form>
     </Form>
   );
 };
 
-export default CreateEventForm;
+export default EditEventForm;

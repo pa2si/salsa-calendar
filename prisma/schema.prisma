@@ -26,7 +26,7 @@ model Event {
   city String
   postal String
   country String
-  genre String[]
+  genres String[]
   imageUrl   String?
   mapsLink String?
 }

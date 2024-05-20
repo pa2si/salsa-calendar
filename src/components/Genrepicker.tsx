@@ -22,13 +22,13 @@ const Genrepicker: React.FC<GenrepickerProps> = ({ genres }) => {
     watch,
     formState: { errors },
   } = useFormContext();
-  const checkedGenres = watch('checkedGenres') || [];
+  const selectedGenres = watch('genres') || [];
 
   const handleCheckboxChange = (genreValue: string) => {
-    const newCheckedGenres = checkedGenres.includes(genreValue)
-      ? checkedGenres.filter((value: any) => value !== genreValue)
-      : [...checkedGenres, genreValue];
-    setValue('checkedGenres', newCheckedGenres, { shouldValidate: true });
+    const newSelectedGenres = selectedGenres.includes(genreValue)
+      ? selectedGenres.filter((value: any) => value !== genreValue)
+      : [...selectedGenres, genreValue];
+    setValue('genres', newSelectedGenres, { shouldValidate: true });
   };
 
   return (
@@ -43,7 +43,7 @@ const Genrepicker: React.FC<GenrepickerProps> = ({ genres }) => {
           {genres.map((genre) => (
             <DropdownMenuCheckboxItem
               key={genre}
-              checked={checkedGenres.includes(genre)}
+              checked={selectedGenres.includes(genre)}
               onCheckedChange={() => handleCheckboxChange(genre)}
             >
               {EventGenre[genre]}
@@ -53,14 +53,14 @@ const Genrepicker: React.FC<GenrepickerProps> = ({ genres }) => {
       </DropdownMenu>
       <ErrorMessage
         errors={errors}
-        name="checkedGenres"
+        name="genres"
         as="p"
         render={({ message }: { message: string }) => (
           <p className="text-red-500 mt-3">{message}</p>
         )}
       />
-      {checkedGenres.length > 0 && (
-        <p className="mt-3">Selected Genres: {checkedGenres.join(', ')}</p>
+      {selectedGenres.length > 0 && (
+        <p className="mt-3">Selected Genres: {selectedGenres.join(', ')}</p>
       )}
     </div>
   );

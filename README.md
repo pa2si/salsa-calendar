@@ -1,9 +1,10 @@
-v 0.1.19
+v 0.1.20
 
 that's new:
 
-- refactured form now with exported googlemaps autocomplete logic and also clean the form correctly.
-- starting of adding the edit event components
+- edit functionality fully working
+- some updates in googleautocomplete
+- sidebar styes open for edit route
 
 to dos:
 

@@ -33,7 +33,7 @@ export type EventType = {
   city: string;
   postal: string;
   country: string;
-  genre: string[];
+  genres: string[];
   imageUrl?: string | null;
   mapsLink?: string | null;
 };

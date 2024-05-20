@@ -63,7 +63,7 @@ function EventCard({ event }: { event: EventType }) {
         </div>
 
         {/* Render genres as badges */}
-        {event.genre.map((genre, index) => (
+        {event.genres.map((genre, index) => (
           <Badge key={index} className=" my-3 justify-center bg-gray-500 mr-1 ">
             <AudioLines className="w-4" /> {genre}
           </Badge>
@@ -84,7 +84,7 @@ function EventCard({ event }: { event: EventType }) {
       <Separator />
       <CardFooter className="flex gap-4 mt-4">
         <Button asChild size="sm" className="bg-blue-500 hover:bg-blue-700">
-          <Link href={`/myevents/${event.id}`}>edit</Link>
+          <Link href={`/my-events/edit/${event.id}`}>edit</Link>
         </Button>
         <DeleteEventBtn id={event.id} />
       </CardFooter>
