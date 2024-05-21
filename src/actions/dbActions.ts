@@ -59,6 +59,8 @@ export async function getAllEventsAction({
   page: number;
   totalPages: number;
 }> {
+  // await new Promise((resolve) => setTimeout(resolve, 10000));
+
   const userId = authenticateAndRedirect();
   try {
     let whereClause: Prisma.EventWhereInput = {
@@ -117,6 +119,7 @@ export async function getSingleEventAction(
   id: string
 ): Promise<EventType | null> {
   let event: EventType | null = null;
+
   const userId = authenticateAndRedirect();
   try {
     event = await prisma.event.findUnique({

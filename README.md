@@ -1,10 +1,8 @@
-v 0.1.20
+v 0.1.21
 
 that's new:
 
-- edit functionality fully working
-- some updates in googleautocomplete
-- sidebar styes open for edit route
+- skeleton for loading routes my-events and add-event and dynamic edit id route
 
 to dos:
 

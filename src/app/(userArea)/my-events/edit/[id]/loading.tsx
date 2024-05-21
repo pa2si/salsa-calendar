@@ -36,13 +36,13 @@ function loading() {
         <Skeleton className="h-10 w-full rounded-lg" />
         {/* Genres */}
         <div className="flex flex-col mt-2 gap-2">
-          <Skeleton className="h-6 w-24 mb-2 rounded-lg" />
-          <Skeleton className="h-10 w-44 rounded-lg" />
+          <Skeleton className="h-6 w-12 mb-2 rounded-lg" />
+          <Skeleton className="h-10 w-36 rounded-lg" />
         </div>
         {/* Image Upload */}
         <div className="flex flex-col mt-2 gap-2">
           <Skeleton className="h-6 w-24 mb-2 rounded-lg" />
-          <Skeleton className="h-40 w-full rounded-lg" />
+          <Skeleton className="h-10 w-44 rounded-lg" />
         </div>
       </CardContent>
       <Separator />

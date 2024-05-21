@@ -34,7 +34,7 @@ function SearchForm() {
 
   return (
     <form
-      className="mb-16 p-8 grid sm:grid-cols-2 md:grid-cols-3 gap-4 rounded-lg"
+      className="mb-8 p-8 grid sm:grid-cols-2 md:grid-cols-3 gap-4 rounded-lg"
       onSubmit={handleSubmit}
     >
       <Input

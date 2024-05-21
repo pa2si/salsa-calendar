@@ -16,6 +16,7 @@ import EventInfo from './EventInfo';
 import DeleteEventBtn from './DeleteEventBtn';
 import { format } from 'date-fns';
 import Image from 'next/image';
+import { Skeleton } from './ui/skeleton';
 
 function EventCard({ event }: { event: EventType }) {
   const formattedDate = format(new Date(event.date), 'dd.MM.yyyy');
@@ -91,4 +92,5 @@ function EventCard({ event }: { event: EventType }) {
     </Card>
   );
 }
+
 export default EventCard;
