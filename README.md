@@ -1,8 +1,8 @@
-v 0.1.21
+v 0.1.22
 
 that's new:
 
-- skeleton for loading routes my-events and add-event and dynamic edit id route
+- pagination for my events implemented
 
 to dos:
 
@@ -22,5 +22,5 @@ done:
   - ViewButton
   - DayCard
 - /add-event Url with Form using also Google Javascript API
-- /my-events Url : shows all events.
+- /my-events Url : shows all events with pagination.
 - Prisma db integration with form submit

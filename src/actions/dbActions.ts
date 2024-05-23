@@ -52,7 +52,7 @@ export async function getAllEventsAction({
   search,
   genre,
   page = 1,
-  limit = 10,
+  limit = 6,
 }: GetAllEventsActionTypes): Promise<{
   events: EventType[];
   count: number;
@@ -86,14 +86,20 @@ export async function getAllEventsAction({
         genres: { has: genre },
       };
     }
-
+    const skip = (page - 1) * limit;
     const events: EventType[] = await prisma.event.findMany({
       where: whereClause,
+      skip,
+      take: limit, // limit is 10
       orderBy: {
         createdAt: 'desc',
       },
     });
-    return { events, count: 0, page: 1, totalPages: 0 };
+
+    const count: number = await prisma.event.count({ where: whereClause });
+    const totalPages = Math.ceil(count / limit);
+
+    return { events, count, page, totalPages };
   } catch (error) {
     return { events: [], count: 0, page: 1, totalPages: 0 };
   }
