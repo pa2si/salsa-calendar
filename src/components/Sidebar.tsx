@@ -96,15 +96,30 @@ const Sidebar = () => {
             ) : (
               <>
                 {!isSignedIn && (
-                  <li>
-                    <Link
-                      href="/about"
-                      className="btn w-full text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg px-4 py-2 mx-1 transition duration-150 ease-in-out"
-                      onClick={handleMenuClick}
-                    >
-                      About
-                    </Link>
-                  </li>
+                  <ul>
+                    <li>
+                      <Link
+                        href="/about"
+                        className={`btn w-full text-white ${
+                          pathname === '/about' ? 'bg-blue-700' : 'bg-blue-500'
+                        } hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg px-4 py-2 mx-1 transition duration-150 ease-in-out mb-2`}
+                        onClick={handleMenuClick}
+                      >
+                        About
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="/"
+                        className={`btn w-full text-white ${
+                          pathname === '/' ? 'bg-blue-700' : 'bg-blue-500'
+                        } hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg px-4 py-2 mx-1 transition duration-150 ease-in-out mb-2`}
+                        onClick={handleMenuClick}
+                      >
+                        Calendar
+                      </Link>
+                    </li>
+                  </ul>
                 )}
                 {isSignedIn ? (
                   <>
@@ -114,7 +129,9 @@ const Sidebar = () => {
                     <li>
                       <Link
                         href="/about"
-                        className="btn w-full text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg px-4 py-2 mx-1 transition duration-150 ease-in-out"
+                        className={`btn w-full text-white ${
+                          pathname === '/' ? 'bg-blue-700' : 'bg-blue-500'
+                        } hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg px-4 py-2 mx-1 transition duration-150 ease-in-out mb-2`}
                         onClick={handleMenuClick}
                       >
                         About

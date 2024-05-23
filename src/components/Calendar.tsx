@@ -14,13 +14,14 @@ import {
 import Navigation from './Navigation';
 import ViewButtons from './ViewButtons';
 import DayCard from './DayCard';
-import { events } from '@/data/events';
-import { Button } from '@nextui-org/react';
-import Link from 'next/link';
+import { useQuery } from '@tanstack/react-query';
+import { getAllPublicEventsAction } from '@/actions/dbActions';
+import { EventType } from '@/types/types';
 
 function Calendar() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [view, setView] = useState<'day' | 'week' | 'month'>('month');
+  const [selectedDay, setSelectedDay] = useState<Date | null>(null);
 
   const today = new Date();
 
@@ -37,6 +38,13 @@ function Calendar() {
     });
   };
 
+  const { data } = useQuery({
+    queryKey: ['publicEvents', currentMonth, view],
+    queryFn: () => getAllPublicEventsAction({}),
+  });
+
+  const events: EventType[] = data?.events || [];
+
   let days = eachDayOfInterval({
     start:
       view === 'day'
@@ -52,6 +60,12 @@ function Calendar() {
         : endOfMonth(currentMonth),
   });
 
+  const handleDayClick = (day: Date) => {
+    setView('day');
+    setCurrentMonth(day); // Update currentMonth to the selected day
+    setSelectedDay(day);
+  };
+
   return (
     <div className="flex flex-col items-center p-4">
       <div
@@ -63,7 +77,8 @@ function Calendar() {
           onNavigate={navigate}
           currentMonth={currentMonth}
           resetToToday={() => setCurrentMonth(new Date())}
-          currentView={view} // Pass the current view to Navigation
+          currentView={view}
+          selectedDay={selectedDay} // Pass selectedDay to Navigation
         />
         <ViewButtons onViewChange={setView} />
       </div>
@@ -74,7 +89,8 @@ function Calendar() {
             day={day}
             today={today}
             view={view}
-            events={events} // Make sure this is the array of events
+            events={events}
+            onDayClick={handleDayClick}
           />
         ))}
       </div>

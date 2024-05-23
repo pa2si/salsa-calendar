@@ -169,3 +169,48 @@ export async function updateEventAction(
     return null;
   }
 }
+
+export async function getAllPublicEventsAction({
+  search,
+  genre,
+  page = 1,
+  limit = 6,
+}: GetAllEventsActionTypes): Promise<{
+  events: EventType[];
+  count: number;
+  page: number;
+  totalPages: number;
+}> {
+  try {
+    let whereClause: Prisma.EventWhereInput = {};
+
+    if (search) {
+      whereClause = {
+        ...whereClause,
+        OR: [
+          { locationName: { contains: search, mode: 'insensitive' } },
+          { eventName: { contains: search, mode: 'insensitive' } },
+        ],
+      };
+    }
+
+    if (genre && genre !== 'all') {
+      whereClause = { ...whereClause, genres: { has: genre } };
+    }
+
+    const skip = (page - 1) * limit;
+    const events: EventType[] = await prisma.event.findMany({
+      where: whereClause,
+      skip,
+      take: limit,
+      orderBy: { createdAt: 'desc' },
+    });
+
+    const count: number = await prisma.event.count({ where: whereClause });
+    const totalPages = Math.ceil(count / limit);
+
+    return { events, count, page, totalPages };
+  } catch (error) {
+    return { events: [], count: 0, page: 1, totalPages: 0 };
+  }
+}

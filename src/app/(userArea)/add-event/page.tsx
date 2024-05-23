@@ -12,12 +12,19 @@ export async function generateMetadata() {
   };
 }
 
-const AddEventPage = () => {
+const AddEventPage = ({
+  searchParams,
+}: {
+  searchParams: { date?: string };
+}) => {
   const queryClient = new QueryClient();
+  const selectedDate = searchParams.date ? new Date(searchParams.date) : null;
+
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <CreateEventForm />
+      <CreateEventForm selectedDate={selectedDate} />
     </HydrationBoundary>
   );
 };
+
 export default AddEventPage;

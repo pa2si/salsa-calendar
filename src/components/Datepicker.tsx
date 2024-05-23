@@ -48,7 +48,6 @@ export function DatePicker({ name }: { name: string }) {
                 onSelect={(date) => {
                   field.onChange(date);
                   setOpen(false);
-                  // console.log('Selected Date:', date, typeof date);
                 }}
                 initialFocus
               />

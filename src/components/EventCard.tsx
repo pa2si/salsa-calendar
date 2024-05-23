@@ -109,7 +109,6 @@ function EventCard({ event }: { event: EventType }) {
               className="object-cover rounded-lg"
             />
           )}
-
           <div className="modal-action">
             <form method="dialog">
               {/* if there is a button, it will close the modal */}

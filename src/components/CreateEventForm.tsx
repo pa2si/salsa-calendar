@@ -21,7 +21,7 @@ import UploadFile from './UploadFile';
 import { useEdgeStore } from '@/lib/providers';
 import useGoogleAutocomplete from '@/lib/useGoogleAutocomplete';
 
-const CreateEventForm = () => {
+const CreateEventForm = ({ selectedDate }: { selectedDate: Date | null }) => {
   const { edgestore } = useEdgeStore();
 
   // 1. Define your form.
@@ -30,7 +30,7 @@ const CreateEventForm = () => {
     defaultValues: {
       id: '',
       eventName: '',
-      date: new Date(),
+      date: selectedDate || new Date(),
       time: '',
       locationName: '',
       street: '',
