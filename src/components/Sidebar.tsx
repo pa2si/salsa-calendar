@@ -31,8 +31,10 @@ const Sidebar = () => {
     }
   };
 
+  // determine the specific route to decide when the sidebar shall keep open
   const specificRoute =
     pathname === '/add-event' ||
+    pathname === '/about' ||
     pathname === '/my-events' ||
     /^\/my-events\/edit\/.+/.test(pathname);
 
@@ -95,12 +97,13 @@ const Sidebar = () => {
               <>
                 {!isSignedIn && (
                   <li>
-                    <button
+                    <Link
+                      href="/about"
                       className="btn w-full text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg px-4 py-2 mx-1 transition duration-150 ease-in-out"
                       onClick={handleMenuClick}
                     >
                       About
-                    </button>
+                    </Link>
                   </li>
                 )}
                 {isSignedIn ? (
@@ -109,12 +112,13 @@ const Sidebar = () => {
                       <NavLinks drawerRef={drawerRef} isSignedIn={isSignedIn} />
                     </li>
                     <li>
-                      <button
+                      <Link
+                        href="/about"
                         className="btn w-full text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg px-4 py-2 mx-1 transition duration-150 ease-in-out"
                         onClick={handleMenuClick}
                       >
                         About
-                      </button>
+                      </Link>
                     </li>
                     <li className="mt-6">
                       <MemberProfile />

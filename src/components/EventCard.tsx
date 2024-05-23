@@ -16,21 +16,25 @@ import EventInfo from './EventInfo';
 import DeleteEventBtn from './DeleteEventBtn';
 import { format } from 'date-fns';
 import Image from 'next/image';
-import { Skeleton } from './ui/skeleton';
+import { useState } from 'react';
 
 function EventCard({ event }: { event: EventType }) {
   const formattedDate = format(new Date(event.date), 'dd.MM.yyyy');
   const createdDate = format(new Date(event.createdAt), 'dd.MM.yyyy');
   const imageUrl = event.imageUrl;
 
+  const openModal = (): void => {
+    const modal = document.getElementById(
+      `image_modal_${event.id}`
+    ) as HTMLDialogElement | null;
+    modal?.showModal();
+  };
+
   return (
     <Card className="">
       <CardHeader>
         <CardTitle className="capitalize">{event.eventName}</CardTitle>
-        <CardDescription>
-          {/* <CalendarDays /> */}
-          created at {createdDate}
-        </CardDescription>
+        <CardDescription>created at {createdDate}</CardDescription>
       </CardHeader>
       <Separator />
       <CardContent className="mt-4">
@@ -63,21 +67,21 @@ function EventCard({ event }: { event: EventType }) {
           <EventInfo icon="" text={event.country} />
         </div>
 
-        {/* Render genres as badges */}
         {event.genres.map((genre, index) => (
-          <Badge key={index} className=" my-3 justify-center bg-gray-500 mr-1 ">
+          <Badge key={index} className="my-3 justify-center bg-gray-500 mr-1">
             <AudioLines className="w-4" /> {genre}
           </Badge>
         ))}
-        {/* Fyler */}
+
         {imageUrl && (
           <div className="h-56 relative">
             <Image
               src={imageUrl}
               alt={event.eventName}
               fill
-              className="absolute object-cover rounded-lg"
+              className="absolute object-cover rounded-lg cursor-pointer"
               sizes="33vw"
+              onClick={openModal}
             />
           </div>
         )}
@@ -89,6 +93,31 @@ function EventCard({ event }: { event: EventType }) {
         </Button>
         <DeleteEventBtn id={event.id} />
       </CardFooter>
+
+      {/* Modal for Image */}
+      <dialog id={'image_modal_' + event.id} className="modal modal-middle">
+        <div className="modal-box ">
+          {/* <h3 className="font-bold text-lg">{event.eventName}</h3> */}
+
+          {imageUrl && (
+            <Image
+              src={imageUrl}
+              alt={event.eventName}
+              width={500}
+              height={500}
+              priority
+              className="object-cover rounded-lg"
+            />
+          )}
+
+          <div className="modal-action">
+            <form method="dialog">
+              {/* if there is a button, it will close the modal */}
+              <button className="btn">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
     </Card>
   );
 }

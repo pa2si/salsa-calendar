@@ -1,8 +1,8 @@
-v 0.1.22
+v 0.1.23
 
 that's new:
 
-- pagination for my events implemented
+- /about route accesasble with via about link in sidebar
 
 to dos:
 
