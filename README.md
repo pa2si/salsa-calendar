@@ -3,6 +3,7 @@ v 0.1.28
 that's new:
 
 - changed package.json build code for prisma
+- updated prisma
 
 to dos:
 
