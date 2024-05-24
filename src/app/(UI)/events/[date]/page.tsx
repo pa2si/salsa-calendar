@@ -6,6 +6,13 @@ import {
 } from '@tanstack/react-query';
 import DayEventsList from '@/components/DayEventsList';
 
+export async function generateMetadata() {
+  return {
+    title: 'events',
+    description: '',
+  };
+}
+
 async function EventsPerDay({ params }: { params: { date: string } }) {
   const queryClient = new QueryClient();
 

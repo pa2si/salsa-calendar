@@ -1,8 +1,8 @@
-v 0.1.25
+v 0.1.26
 
 that's new:
 
-- when clicking on an empty daycard in calendar you get directed to add-events with date in params. datepicker is using that day automatically.
+- some file cleaning to make it build ready
 
 to dos:
 

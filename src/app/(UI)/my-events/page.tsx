@@ -9,7 +9,7 @@ import { getAllEventsAction } from '@/actions/dbActions';
 
 export async function generateMetadata() {
   return {
-    title: '',
+    title: 'my events',
     description: '',
   };
 }
