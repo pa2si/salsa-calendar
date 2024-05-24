@@ -1,8 +1,9 @@
-v 0.1.26
+v 0.1.27
 
 that's new:
 
-- some file cleaning to make it build ready
+- images in public route deleted
+- robots file
 
 to dos:
 
