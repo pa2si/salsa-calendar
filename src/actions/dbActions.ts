@@ -26,10 +26,19 @@ export async function createEventAction(
   try {
     createAndEditEventSchema.parse(values); // Validate using Zod; 'date' is a Date object
 
+    // Ensure the date is set to UTC without time component
+    const eventDate = new Date(
+      Date.UTC(
+        values.date.getFullYear(),
+        values.date.getMonth(),
+        values.date.getDate()
+      )
+    );
+
     const event: EventType = await prisma.event.create({
       data: {
         eventName: values.eventName,
-        date: values.date,
+        date: eventDate,
         time: values.time,
         locationName: values.locationName,
         street: values.street,
