@@ -17,7 +17,7 @@ import DeleteEventBtn from './DeleteEventBtn';
 import { format } from 'date-fns';
 import Image from 'next/image';
 
-function EventCard({ event }: { event: EventType }) {
+function PublicEventCard({ event }: { event: EventType }) {
   const formattedDate = format(new Date(event.date), 'dd.MM.yyyy');
   const createdDate = format(new Date(event.createdAt), 'dd.MM.yyyy');
   const imageUrl = event.imageUrl;
@@ -86,12 +86,6 @@ function EventCard({ event }: { event: EventType }) {
         )}
       </CardContent>
       <Separator />
-      <CardFooter className="flex gap-4 mt-4">
-        <Button asChild size="sm" className="bg-blue-500 hover:bg-blue-700">
-          <Link href={`/my-events/edit/${event.id}`}>edit</Link>
-        </Button>
-        <DeleteEventBtn id={event.id} />
-      </CardFooter>
 
       {/* Modal for Image */}
       <dialog id={'image_modal_' + event.id} className="modal modal-middle">
@@ -120,4 +114,4 @@ function EventCard({ event }: { event: EventType }) {
   );
 }
 
-export default EventCard;
+export default PublicEventCard;

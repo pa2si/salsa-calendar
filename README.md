@@ -1,15 +1,13 @@
-v 0.1.24
+v 0.1.25
 
 that's new:
 
-- events can be seen without beeing logged in in calendar view
-- when clicking on a dayCard in calendar with no event --> link to /add-event
-- when clicking on a dayCard in calendar with event --> link to dayView of calendar
+- when clicking on an empty daycard in calendar you get directed to add-events with date in params. datepicker is using that day automatically.
 
 to dos:
 
+- skeleton for loading image in eventCard
 - implement that when clicking on a dayCard in calendar with event --> link to dayView of calendar only when more than 1 event otherwise direct to /events[day]
-- in that dynamic route we need to show a list of events of that day
 
 - sidebar shall close when hitting the home button or the calendar button
 - add a admin route where i can see all events of everyone and CRUD
@@ -28,4 +26,5 @@ done:
   - DayCard
 - /add-event Url with Form using also Google Javascript API
 - /my-events Url : shows all events with pagination.
+- /events[date] dynamic Url : shows all events for that one day.
 - Prisma db integration with form submit

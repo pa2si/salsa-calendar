@@ -1,7 +1,13 @@
 import { authMiddleware } from '@clerk/nextjs';
 
 export default authMiddleware({
-  publicRoutes: ['/', '/about', '/api/edgestore/init'],
+  publicRoutes: [
+    '/',
+    '/about',
+    '/events',
+    '/events/(.*)',
+    '/api/edgestore/init',
+  ],
 });
 
 export const config = {

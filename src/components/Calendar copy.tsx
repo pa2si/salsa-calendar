@@ -11,7 +11,7 @@ import {
   addWeeks,
   addDays,
 } from 'date-fns';
-import Navigation from './Navigation';
+import Navigation from './CalendarNavigation';
 import ViewButtons from './ViewButtons';
 import DayCard from './DayCard';
 import { events } from '@/data/events';

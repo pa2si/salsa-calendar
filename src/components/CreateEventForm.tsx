@@ -74,7 +74,6 @@ const CreateEventForm = ({ selectedDate }: { selectedDate: Date | null }) => {
       queryClient.invalidateQueries({ queryKey: ['events'] });
 
       // Reset form after successful submission
-      // form.reset();
       router.push('/');
     },
     onError: (error) => {
@@ -86,6 +85,7 @@ const CreateEventForm = ({ selectedDate }: { selectedDate: Date | null }) => {
   // 2. Define a submit handler.
   function onSubmit(values: CreateAndEditEventType) {
     mutate(values);
+    // console.log('this are the form values', values);
   }
 
   const genreOptions = Object.keys(EventGenre) as (keyof typeof EventGenre)[];

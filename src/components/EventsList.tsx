@@ -44,7 +44,13 @@ function EventsList() {
         </div>
       </div>
       {/* list of event cards */}
-      <div className="grid md:grid-cols-2 gap-8">
+      <div
+        className={`${
+          events.length <= 1
+            ? 'flex justify-center items-center'
+            : 'grid md:grid-cols-2 gap-8'
+        }`}
+      >
         {events.map((event) => {
           return <EventCard key={event.id} event={event} />;
         })}

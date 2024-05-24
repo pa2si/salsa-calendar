@@ -1,7 +1,7 @@
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { format, getISOWeek } from 'date-fns';
 
-interface NavigationProps {
+interface CalendarNavigationProps {
   onNavigate: (direction: number) => void;
   currentMonth: Date;
   resetToToday: () => void;
@@ -9,7 +9,7 @@ interface NavigationProps {
   selectedDay: Date | null;
 }
 
-const Navigation: React.FC<NavigationProps> = ({
+const CalendarNavigation: React.FC<CalendarNavigationProps> = ({
   onNavigate,
   currentMonth,
   resetToToday,
@@ -52,4 +52,4 @@ const Navigation: React.FC<NavigationProps> = ({
   );
 };
 
-export default Navigation;
+export default CalendarNavigation;

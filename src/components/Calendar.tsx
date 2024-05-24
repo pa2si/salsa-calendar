@@ -1,4 +1,5 @@
 'use client';
+
 import { useState } from 'react';
 import {
   format,
@@ -11,7 +12,8 @@ import {
   addWeeks,
   addDays,
 } from 'date-fns';
-import Navigation from './Navigation';
+import { useRouter } from 'next/navigation';
+import CalendarNavigation from './CalendarNavigation';
 import ViewButtons from './ViewButtons';
 import DayCard from './DayCard';
 import { useQuery } from '@tanstack/react-query';
@@ -23,6 +25,7 @@ function Calendar() {
   const [view, setView] = useState<'day' | 'week' | 'month'>('month');
   const [selectedDay, setSelectedDay] = useState<Date | null>(null);
 
+  const router = useRouter();
   const today = new Date();
 
   const navigate = (direction: number) => {
@@ -39,7 +42,7 @@ function Calendar() {
   };
 
   const { data } = useQuery({
-    queryKey: ['publicEvents', currentMonth, view],
+    queryKey: ['publicEvents'],
     queryFn: () => getAllPublicEventsAction({}),
   });
 
@@ -61,9 +64,14 @@ function Calendar() {
   });
 
   const handleDayClick = (day: Date) => {
-    setView('day');
-    setCurrentMonth(day); // Update currentMonth to the selected day
-    setSelectedDay(day);
+    const formattedDate = format(day, 'yyyy-MM-dd');
+    if (view === 'day') {
+      router.push(`/events/${formattedDate}`);
+    } else {
+      setView('day');
+      setCurrentMonth(day); // Update currentMonth to the selected day
+      setSelectedDay(day);
+    }
   };
 
   return (
@@ -73,7 +81,7 @@ function Calendar() {
           view === 'day' ? 'flex-col' : 'flex-col lg:flex-row'
         } justify-center items-center`}
       >
-        <Navigation
+        <CalendarNavigation
           onNavigate={navigate}
           currentMonth={currentMonth}
           resetToToday={() => setCurrentMonth(new Date())}

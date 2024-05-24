@@ -36,7 +36,8 @@ const Sidebar = () => {
     pathname === '/add-event' ||
     pathname === '/about' ||
     pathname === '/my-events' ||
-    /^\/my-events\/edit\/.+/.test(pathname);
+    /^\/my-events\/edit\/.+/.test(pathname) ||
+    /^\/events\/.+/.test(pathname);
 
   return (
     <div

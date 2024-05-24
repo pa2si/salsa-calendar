@@ -25,6 +25,7 @@ export async function createEventAction(
   const userId = authenticateAndRedirect();
   try {
     createAndEditEventSchema.parse(values); // Validate using Zod; 'date' is a Date object
+
     const event: EventType = await prisma.event.create({
       data: {
         eventName: values.eventName,
@@ -175,7 +176,8 @@ export async function getAllPublicEventsAction({
   genre,
   page = 1,
   limit = 6,
-}: GetAllEventsActionTypes): Promise<{
+  date,
+}: GetAllEventsActionTypes & { date?: string }): Promise<{
   events: EventType[];
   count: number;
   page: number;
@@ -198,6 +200,10 @@ export async function getAllPublicEventsAction({
       whereClause = { ...whereClause, genres: { has: genre } };
     }
 
+    if (date) {
+      whereClause = { ...whereClause, date: new Date(date) };
+    }
+
     const skip = (page - 1) * limit;
     const events: EventType[] = await prisma.event.findMany({
       where: whereClause,
@@ -211,6 +217,7 @@ export async function getAllPublicEventsAction({
 
     return { events, count, page, totalPages };
   } catch (error) {
+    console.error('Error fetching public events:', error);
     return { events: [], count: 0, page: 1, totalPages: 0 };
   }
 }
