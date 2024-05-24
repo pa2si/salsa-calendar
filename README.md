@@ -1,9 +1,8 @@
-v 0.1.27
+v 0.1.28
 
 that's new:
 
-- images in public route deleted
-- robots file
+- changed package.json build code for prisma
 
 to dos:
 
