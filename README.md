@@ -1,10 +1,8 @@
-v 0.1.32
+v 0.1.33
 
 that's new:
 
-- Day view middle button now adapts to next or prev buttons
-- framer motion effect for view changes in carousel
-- title for events route
+- public event card adjust widths
 
 to dos:
 

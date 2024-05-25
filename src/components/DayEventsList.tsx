@@ -17,18 +17,16 @@ function DayEventsList({ date }: { date: string }) {
     return <h1 className="text-4xl">No events for this day</h1>;
 
   return (
-    <div>
-      <div
-        className={`${
-          events.length <= 1
-            ? 'flex justify-center items-center'
-            : 'grid md:grid-cols-2 gap-8'
-        }`}
-      >
-        {events.map((event) => (
-          <PublicEventCard key={event.id} event={event} />
-        ))}
-      </div>
+    <div
+      className={`${
+        events.length <= 1
+          ? 'flex justify-center items-center'
+          : 'grid md:grid-cols-2 gap-8'
+      }`}
+    >
+      {events.map((event) => (
+        <PublicEventCard key={event.id} event={event} />
+      ))}
     </div>
   );
 }
