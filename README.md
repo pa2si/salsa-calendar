@@ -1,8 +1,8 @@
-v 0.1.29
+v 0.1.30
 
 that's new:
 
-- in createEventAction changed the dateFormat
+- Datepicker convert the date to UTC
 
 to dos:
 

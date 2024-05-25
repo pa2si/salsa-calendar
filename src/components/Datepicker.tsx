@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+222;
 import { format } from 'date-fns';
 import { ErrorMessage } from '@hookform/error-message';
 import { Calendar as CalendarIcon } from 'lucide-react';
@@ -46,7 +47,17 @@ export function DatePicker({ name }: { name: string }) {
                 mode="single"
                 selected={field.value ? new Date(field.value) : undefined}
                 onSelect={(date) => {
-                  field.onChange(date);
+                  if (date) {
+                    // Convert the date to UTC
+                    const utcDate = new Date(
+                      Date.UTC(
+                        date.getFullYear(),
+                        date.getMonth(),
+                        date.getDate()
+                      )
+                    );
+                    field.onChange(utcDate);
+                  }
                   setOpen(false);
                 }}
                 initialFocus
