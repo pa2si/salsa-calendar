@@ -45,7 +45,7 @@ const DayCard: React.FC<DayCardProps> = ({
             ? `flex-1 min-w-[140px] max-w-[160px] ${
                 eventsForDay.length > 1 ? 'max-h-content' : 'max-h-[240px]'
               } md:min-w-[280px] md:max-h-[500px] md:max-w-[280px]`
-            : `flex-1 min-w-[140px] max-w-[100px] md:min-w-[170px] md:max-w-[160px] ${
+            : `flex-1 min-w-[140px] max-w-[100px] md:min-w-[170px] md:max-w-[170px] ${
                 eventsForDay.length > 1 ? 'max-h-[500px]' : 'max-h-[240px]'
               }`
         } `}

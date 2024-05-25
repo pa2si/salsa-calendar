@@ -1,8 +1,10 @@
-v 0.1.30
+v 0.1.31
 
 that's new:
 
-- Datepicker convert the date to UTC
+- EventCard width adjustment
+- DayCard width adjustment
+- layout margin left adjustment
 
 to dos:
 

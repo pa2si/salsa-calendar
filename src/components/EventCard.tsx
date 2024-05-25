@@ -30,7 +30,7 @@ function EventCard({ event }: { event: EventType }) {
   };
 
   return (
-    <Card className="min-w-96">
+    <Card className="md:min-w-80 lg:min-w-72 xl:min-w-96">
       <CardHeader>
         <CardTitle className="capitalize">{event.eventName}</CardTitle>
         <CardDescription>created at {createdDate}</CardDescription>
