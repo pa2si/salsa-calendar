@@ -19,20 +19,24 @@ import DayCard from './DayCard';
 import { useQuery } from '@tanstack/react-query';
 import { getAllPublicEventsAction } from '@/actions/dbActions';
 import { EventType } from '@/types/types';
+import { motion, AnimatePresence } from 'framer-motion';
 
 function Calendar() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [view, setView] = useState<'day' | 'week' | 'month'>('month');
-  const [selectedDay, setSelectedDay] = useState<Date | null>(null);
+  const [selectedDay, setSelectedDay] = useState<Date | null>(new Date());
 
   const router = useRouter();
   const today = new Date();
 
   const navigate = (direction: number) => {
     setCurrentMonth((prevMonth) => {
+      let newDate;
       switch (view) {
         case 'day':
-          return addDays(prevMonth, direction);
+          newDate = addDays(prevMonth, direction);
+          setSelectedDay(newDate); // Update selectedDay in day view
+          return newDate;
         case 'week':
           return addWeeks(prevMonth, direction);
         default:
@@ -74,6 +78,18 @@ function Calendar() {
     }
   };
 
+  const resetToToday = () => {
+    const today = new Date();
+    setCurrentMonth(today);
+    setSelectedDay(today);
+  };
+
+  const variants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: { opacity: 1, scale: 1 },
+    exit: { opacity: 0, scale: 0.8 },
+  };
+
   return (
     <div className="flex flex-col items-center p-4">
       <div
@@ -84,24 +100,34 @@ function Calendar() {
         <CalendarNavigation
           onNavigate={navigate}
           currentMonth={currentMonth}
-          resetToToday={() => setCurrentMonth(new Date())}
+          resetToToday={resetToToday} // Pass the updated function
           currentView={view}
           selectedDay={selectedDay} // Pass selectedDay to Navigation
         />
         <ViewButtons onViewChange={setView} />
       </div>
-      <div className="flex flex-wrap justify-center items-start gap-4">
-        {days.map((day) => (
-          <DayCard
-            key={format(day, 'yyyy-MM-dd')}
-            day={day}
-            today={today}
-            view={view}
-            events={events}
-            onDayClick={handleDayClick}
-          />
-        ))}
-      </div>
+      <AnimatePresence>
+        <motion.div
+          key={view}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          variants={variants}
+          transition={{ duration: 0.5 }}
+          className="flex flex-wrap justify-center items-start gap-4"
+        >
+          {days.map((day) => (
+            <DayCard
+              key={format(day, 'yyyy-MM-dd')}
+              day={day}
+              today={today}
+              view={view}
+              events={events}
+              onDayClick={handleDayClick}
+            />
+          ))}
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }

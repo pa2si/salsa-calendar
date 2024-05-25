@@ -1,10 +1,10 @@
-v 0.1.31
+v 0.1.32
 
 that's new:
 
-- EventCard width adjustment
-- DayCard width adjustment
-- layout margin left adjustment
+- Day view middle button now adapts to next or prev buttons
+- framer motion effect for view changes in carousel
+- title for events route
 
 to dos:
 

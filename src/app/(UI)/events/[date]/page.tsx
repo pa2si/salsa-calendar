@@ -4,6 +4,7 @@ import {
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query';
+import { format, parseISO } from 'date-fns';
 import DayEventsList from '@/components/DayEventsList';
 
 export async function generateMetadata() {
@@ -21,10 +22,15 @@ async function EventsPerDay({ params }: { params: { date: string } }) {
     queryFn: () => getAllPublicEventsAction({ date: params.date }),
   });
 
+  const formattedDate = format(parseISO(params.date), 'EEEE, MMMM dd, yyyy');
+
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <DayEventsList date={params.date} />
-    </HydrationBoundary>
+    <>
+      <h2 className="text-2xl text-center mb-4">Events for {formattedDate} </h2>
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <DayEventsList date={params.date} />
+      </HydrationBoundary>
+    </>
   );
 }
 
