@@ -1,8 +1,9 @@
-v 0.1.33
+v 0.1.33 + preview v 0.0.1
 
 that's new:
 
-- public event card adjust widths
+- robtos.txt file created
+- robtots.ts file edited
 
 to dos:
 
