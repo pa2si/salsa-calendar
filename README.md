@@ -1,4 +1,4 @@
-v 0.1.34
+v 0.1.35
 
 that's new:
 
@@ -14,6 +14,8 @@ to dos:
 
 - filter buttons
 - toast for login
+
+- why cant i use my salsa-calender google API KEY?
 
 done:
 
