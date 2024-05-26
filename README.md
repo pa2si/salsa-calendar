@@ -1,8 +1,8 @@
-v 0.1.33
+v 0.1.34
 
 that's new:
 
-- public event card adjust widths
+- robots.txt added
 
 to dos:
 
