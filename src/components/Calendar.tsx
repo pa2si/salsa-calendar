@@ -116,16 +116,36 @@ function Calendar() {
           transition={{ duration: 0.5 }}
           className="flex flex-wrap justify-center items-start gap-4"
         >
-          {days.map((day) => (
-            <DayCard
-              key={format(day, 'yyyy-MM-dd')}
-              day={day}
-              today={today}
-              view={view}
-              events={events}
-              onDayClick={handleDayClick}
-            />
-          ))}
+          {days.map((day) => {
+            const dayId = format(day, 'yyyy-MM-dd');
+            const eventsForDay = events.filter(
+              (event) => format(new Date(event.date), 'yyyy-MM-dd') === dayId
+            );
+
+            return (
+              <div key={dayId} className="flex flex-col items-center">
+                <DayCard
+                  day={day}
+                  today={today}
+                  view={view}
+                  events={events}
+                  onDayClick={handleDayClick}
+                />
+                {view === 'day' && eventsForDay.length > 0 && (
+                  <div className="lg:hidden flex justify-center mt-4">
+                    <button
+                      className="text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg px-4 py-2 mx-1 transition duration-150 ease-in-out "
+                      onClick={() => {
+                        handleDayClick(day);
+                      }}
+                    >
+                      See Details
+                    </button>
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </motion.div>
       </AnimatePresence>
     </div>

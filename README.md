@@ -1,8 +1,9 @@
-v 0.1.35
+v 0.1.36
 
 that's new:
 
-- robots.txt added
+- in calendar day view (in dayCard component) now a hover text displayes saying : click for all details
+- when width smaller then lg: then a button appears in calendar saying more details
 
 to dos:
 
