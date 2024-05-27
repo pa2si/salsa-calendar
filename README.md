@@ -1,9 +1,9 @@
-v 0.1.33 + preview v 0.0.1
+v 0.1.36 merged from main
 
 that's new:
 
-- robtos.txt file created
-- robtots.ts file edited
+- in calendar day view (in dayCard component) now a hover text displayes saying : click for all details
+- when width smaller then lg: then a button appears in calendar saying more details
 
 to dos:
 
@@ -15,6 +15,8 @@ to dos:
 
 - filter buttons
 - toast for login
+
+- why cant i use my salsa-calender google API KEY?
 
 done:
 

@@ -67,27 +67,33 @@ const DayCard: React.FC<DayCardProps> = ({
               className={` ${eventsForDay.length > 1 ? 'flex flex-wrap' : ''}`}
             >
               {eventsForDay.map((event) => (
-                <Image
-                  key={event.id}
-                  shadow="sm"
-                  radius="lg"
-                  width="100%"
-                  src={event.imageUrl || ''}
-                  alt={event.eventName}
-                  className={`w-full object-cover ${
-                    view === 'day'
-                      ? eventsForDay.length === 1
-                        ? 'max-w-[450px] min-h-[180px]'
-                        : 'p-1 max-w-[450px] w-[225px] h-[225px]'
-                      : view === 'week'
-                      ? eventsForDay.length === 1
-                        ? 'min-h-[180px] max-h-[180px] md:max-h-[260px]  '
-                        : 'pb-1 min-h-[88px] max-h-[92px] md:max-h-[132px] w-72'
-                      : eventsForDay.length === 1
-                      ? 'min-h-[180px] md:max-h-[160px]'
-                      : 'pb-1 h-[90px] w-44'
-                  }`}
-                />
+                <div className="relative w-full" key={event.id}>
+                  <Image
+                    shadow="sm"
+                    radius="lg"
+                    width="100%"
+                    src={event.imageUrl || ''}
+                    alt={event.eventName}
+                    className={`w-full object-cover ${
+                      view === 'day'
+                        ? eventsForDay.length === 1
+                          ? 'max-w-[450px] min-h-[180px]'
+                          : 'p-1 max-w-[450px] w-[225px] h-[225px]'
+                        : view === 'week'
+                        ? eventsForDay.length === 1
+                          ? 'min-h-[180px] max-h-[180px] md:max-h-[260px]  '
+                          : 'pb-1 min-h-[88px] max-h-[92px] md:max-h-[132px] w-72'
+                        : eventsForDay.length === 1
+                        ? 'h-[180px] md:max-h-[180px]'
+                        : 'pb-1 h-[90px] w-44'
+                    }`}
+                  />
+                  {view === 'day' && (
+                    <div className="hidden lg:flex absolute inset-0 bg-black bg-opacity-50 justify-center items-center text-white text-lg opacity-0 hover:opacity-100 z-50">
+                      Click for all details
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
           ) : (

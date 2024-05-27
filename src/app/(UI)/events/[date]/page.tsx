@@ -26,7 +26,7 @@ async function EventsPerDay({ params }: { params: { date: string } }) {
 
   return (
     <>
-      <h2 className="text-2xl text-center mb-4">Events for {formattedDate} </h2>
+      <h2 className="text-2xl text-center py-8">Events for {formattedDate} </h2>
       <HydrationBoundary state={dehydrate(queryClient)}>
         <DayEventsList date={params.date} />
       </HydrationBoundary>
