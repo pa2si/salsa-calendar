@@ -1,16 +1,15 @@
 import { Card, CardBody, CardFooter, Image } from '@nextui-org/react';
 import { format, isSameDay } from 'date-fns';
-import { EventType } from '@/types/types';
-import { BsCloudUpload } from 'react-icons/bs';
+import { DayCardProps } from '@/types/types';
 import Link from 'next/link';
-
-interface DayCardProps {
-  day: Date;
-  today: Date;
-  view: 'day' | 'week' | 'month';
-  events: EventType[];
-  onDayClick: (day: Date) => void;
-}
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselPrevious,
+  CarouselNext,
+} from '@/components/ui/carousel'; // Adjust the import based on how you import from Shadcn UI
+import UploadEventDayCard from './UploadEventDayCard';
 
 const DayCard: React.FC<DayCardProps> = ({
   day,
@@ -26,34 +25,39 @@ const DayCard: React.FC<DayCardProps> = ({
     (event) => format(new Date(event.date), 'yyyy-MM-dd') === dayId
   );
 
+  const baseClasses = 'relative w-full bg-neutral-50';
+  const hoverClass = view !== 'day' ? 'hover:scale-105' : '';
+  const dayViewClass =
+    view === 'day' ? 'max-w-[600px] cursor-default max-w-[450px]' : '';
+  const weekViewClass =
+    view === 'week'
+      ? `flex-1 min-w-[140px] max-w-[160px] h-[226px] md:min-w-[280px] md:h-[300px] md:max-w-[280px]`
+      : '';
+  const monthViewClass =
+    view === 'month'
+      ? `flex-1 min-w-[140px] max-w-[100px] md:min-w-[170px] md:max-w-[170px] max-h-[500px]`
+      : '';
+
   return (
     <Link href={eventsForDay.length > 0 ? '#' : `/add-event?date=${dayId}`}>
       <Card
         shadow="sm"
         key={dayId}
         radius="lg"
-        isPressable
+        isPressable={view !== 'day'}
         onPress={() => {
           if (eventsForDay.length > 0) {
             onDayClick(day);
           }
         }}
-        className={`relative w-full hover:scale-105 bg-neutral-50 ${
-          view === 'day'
-            ? 'max-w-[450px]'
-            : view === 'week'
-            ? `flex-1 min-w-[140px] max-w-[160px] ${
-                eventsForDay.length > 1 ? 'max-h-content' : 'max-h-[240px]'
-              } md:min-w-[280px] md:max-h-[500px] md:max-w-[280px]`
-            : `flex-1 min-w-[140px] max-w-[100px] md:min-w-[170px] md:max-w-[170px] ${
-                eventsForDay.length > 1 ? 'max-h-[500px]' : 'max-h-[240px]'
-              }`
-        } `}
+        className={`${baseClasses} ${hoverClass} ${dayViewClass} ${weekViewClass} ${monthViewClass}`}
       >
         <CardFooter
-          className={`flex flex-col md:flex-row justify-between items-center p-2  rounded-0 ${
-            isToday ? 'bg-blue-200' : 'bg-neutral-100'
-          } `}
+          className={`flex flex-col ${
+            view !== 'day' ? 'md:flex-row' : 'flex-row'
+          } justify-between items-center ${
+            view === 'week' || view === 'month' ? 'p-1 md:p-2' : 'p-2'
+          } rounded-0 ${isToday ? 'bg-blue-200' : 'bg-neutral-100'}`}
         >
           <b>{format(day, 'EEEE')}</b>
           <div>
@@ -61,56 +65,89 @@ const DayCard: React.FC<DayCardProps> = ({
             <span>{format(day, ' MMM')}</span>
           </div>
         </CardFooter>
-        <CardBody className="overflow-visible p-0 bg-neutral-50 ">
-          {eventsForDay.length > 0 ? (
-            <div
-              className={` ${eventsForDay.length > 1 ? 'flex flex-wrap' : ''}`}
-            >
-              {eventsForDay.map((event) => (
-                <div className="relative w-full" key={event.id}>
-                  <Image
-                    shadow="sm"
-                    radius="lg"
-                    width="100%"
-                    src={event.imageUrl || ''}
-                    alt={event.eventName}
-                    className={`w-full object-cover ${
-                      view === 'day'
-                        ? eventsForDay.length === 1
-                          ? 'max-w-[450px] min-h-[180px]'
-                          : 'p-1 max-w-[450px] w-[225px] h-[225px]'
-                        : view === 'week'
-                        ? eventsForDay.length === 1
-                          ? 'min-h-[180px] max-h-[180px] md:max-h-[260px]  '
-                          : 'pb-1 min-h-[88px] max-h-[92px] md:max-h-[132px] w-72'
-                        : eventsForDay.length === 1
-                        ? 'h-[180px] md:max-h-[180px]'
-                        : 'pb-1 h-[90px] w-44'
-                    }`}
-                  />
-                  {view === 'day' && (
-                    <div className="hidden lg:flex absolute inset-0 bg-black bg-opacity-50 justify-center items-center text-white text-lg opacity-0 hover:opacity-100 z-50">
-                      Click for all details
+        <CardBody className="relative overflow-visible p-0 bg-neutral-50">
+          {eventsForDay.length > 1 && view === 'day' ? (
+            /* Display of Carousel when more than 1 event and Day view */
+            <Carousel className="w-full max-w-[450px]  relative">
+              <CarouselContent>
+                {eventsForDay.map((event) => (
+                  <CarouselItem key={event.id}>
+                    <div className="p-0">
+                      <Card>
+                        <CardBody className="flex aspect-square items-center justify-center  ">
+                          <Image
+                            shadow="sm"
+                            radius="lg"
+                            width="100%"
+                            src={event.imageUrl || ''}
+                            alt={event.eventName}
+                            className="w-full object-cover min-h-[180px]"
+                          />
+                        </CardBody>
+                      </Card>
                     </div>
-                  )}
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white rounded-full p-2" />
+              <CarouselNext className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white rounded-full p-2" />
+            </Carousel>
+          ) : eventsForDay.length > 0 ? (
+            <div className="relative w-full h-full">
+              {/* display of how many events if more than one */}
+              {eventsForDay.length > 1 && (
+                <div className="absolute inset-0 flex justify-center items-center bg-black bg-opacity-20 text-white text-lg z-50">
+                  <p className=" bg-black bg-opacity-50 z-50 py-2 px-4 rounded-lg">
+                    {eventsForDay.length} events
+                  </p>
                 </div>
-              ))}
+              )}
+              {/* Image Container when more than 1 event and not DayView  */}
+              <div
+                className={`grid ${
+                  eventsForDay.length === 2
+                    ? 'grid-rows-2'
+                    : eventsForDay.length === 3
+                    ? 'grid-cols-2 grid-rows-2'
+                    : eventsForDay.length >= 4
+                    ? 'grid-cols-2 grid-rows-2'
+                    : 'grid-cols-1'
+                } gap-1 w-full  ${
+                  view === 'day'
+                    ? 'min-h-[350px]'
+                    : view === 'week'
+                    ? ' h-[170px] md:h-[260px]'
+                    : 'h-[180px]'
+                }`}
+              >
+                {eventsForDay.map((event, index) => (
+                  <div
+                    key={event.id}
+                    className={`relative ${
+                      eventsForDay.length === 3 && index === 2
+                        ? 'col-span-2 row-span-1'
+                        : ''
+                    }`}
+                  >
+                    <Image
+                      shadow="sm"
+                      radius="lg"
+                      width="100%"
+                      src={event.imageUrl || ''}
+                      alt={event.eventName}
+                      className={`w-full ${
+                        (view === 'month' && eventsForDay.length === 1) ||
+                        (view === 'week' && eventsForDay.length === 1)
+                          ? 'h-[180px] md:h-[260px]'
+                          : 'h-full'
+                      } object-cover`}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           ) : (
-            <div
-              className={`flex flex-col justify-center items-center pt-6 px-4 ${
-                view === 'day'
-                  ? 'h-[350px] w-[350px]'
-                  : view === 'week'
-                  ? 'h-[180px] md:h-[260px]'
-                  : 'h-[180px]'
-              }`}
-            >
-              <BsCloudUpload size="2rem" />
-              <p style={{ textAlign: 'center', padding: '20px' }}>
-                Upload your event
-              </p>
-            </div>
+            <UploadEventDayCard view={view} />
           )}
         </CardBody>
       </Card>

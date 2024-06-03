@@ -1,9 +1,11 @@
-v 0.1.36
+v 0.1.37
 
 that's new:
 
-- in calendar day view (in dayCard component) now a hover text displayes saying : click for all details
-- when width smaller then lg: then a button appears in calendar saying more details
+- shadCn Carousel installed
+- animations for calendar loading and view changing
+- UI adaption for especially DayCard view
+- now all events are fetched with limit of 1000
 
 to dos:
 

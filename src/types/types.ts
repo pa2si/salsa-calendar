@@ -51,3 +51,11 @@ export type GetAllEventsActionTypes = {
   page?: number;
   limit?: number;
 };
+
+export interface DayCardProps {
+  day: Date;
+  today: Date;
+  view: 'day' | 'week' | 'month';
+  events: EventType[];
+  onDayClick: (day: Date) => void;
+}

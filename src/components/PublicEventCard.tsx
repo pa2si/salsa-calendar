@@ -1,11 +1,9 @@
 import { EventType } from '@/types/types';
 import { MapPin, Clock, CalendarDays, AudioLines } from 'lucide-react';
-import Link from 'next/link';
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
@@ -78,7 +76,7 @@ function PublicEventCard({ event }: { event: EventType }) {
               src={imageUrl}
               alt={event.eventName}
               fill
-              className="absolute object-cover rounded-lg cursor-pointer"
+              className="absolute object-cover rounded-lg cursor-pointer hover:scale-105 transition-all duration-250 ease-in-out"
               sizes="33vw"
               onClick={openModal}
             />

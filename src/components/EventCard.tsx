@@ -78,7 +78,7 @@ function EventCard({ event }: { event: EventType }) {
               src={imageUrl}
               alt={event.eventName}
               fill
-              className="absolute object-cover rounded-lg cursor-pointer"
+              className="absolute object-cover rounded-lg cursor-pointer hover:scale-105 transition-all duration-250 ease-in-out"
               sizes="33vw"
               onClick={openModal}
             />
