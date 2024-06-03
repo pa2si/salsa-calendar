@@ -96,7 +96,7 @@ const DayCard: React.FC<DayCardProps> = ({
             <div className="relative w-full h-full">
               {/* display of how many events if more than one */}
               {eventsForDay.length > 1 && (
-                <div className="absolute inset-0 flex justify-center items-center bg-black bg-opacity-20 text-white text-lg z-50">
+                <div className="absolute inset-0 flex justify-center items-center bg-black bg-opacity-20 text-white text-lg z-30">
                   <p className=" bg-black bg-opacity-50 z-50 py-2 px-4 rounded-lg">
                     {eventsForDay.length} events
                   </p>

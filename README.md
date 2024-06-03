@@ -1,11 +1,8 @@
-v 0.1.37
+v 0.1.38
 
 that's new:
 
-- shadCn Carousel installed
-- animations for calendar loading and view changing
-- UI adaption for especially DayCard view
-- now all events are fetched with limit of 1000
+- in dayCard adapted the z-index of the div for the event number announcement when multiple events
 
 to dos:
 
